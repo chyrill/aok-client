@@ -1,0 +1,32 @@
+{
+    "data": [
+    {
+        "title": "Nature Landscape",
+        "artist": "Cabrera Al Chyrill",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa eget justo pharetra rutrum. Ut vehicula erat at ex consectetur vulputate. Aliquam id sapien pharetra, elementum metus sit amet, elementum neque. Ut vitae feugiat ante. Donec vitae neque sit amet urna dignissim facilisis ut tempus mi.",
+        "image": "/images/3d_photoshop_nature_landscape_14993_1920x1080.jpg",
+        "year": "1920"
+    },
+    {
+        "title": "Wallpaper Landscape",
+        "artist": "Gomez Mikee",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa eget justo pharetra rutrum. Ut vehicula erat at ex consectetur vulputate. Aliquam id sapien pharetra, elementum metus sit amet, elementum neque. Ut vitae feugiat ante.",
+        "image": "/images/new-wallpaper-landscape-full-hd-download-4.jpg",
+        "year": "2017"
+    },
+    {
+        "title": "Winter Solistice",
+        "artist": "Cabrera Al",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa eget justo pharetra rutrum. Ut vehicula erat at ex consectetur vulputate. Aliquam id sapien pharetra, elementum metus sit amet, elementum neque. Ut vitae feugiat ante.",
+        "image": "/images/wallpaper.wiki-Winter-Landscape-Wallpaper-HD-1-PIC-WPB00119-1024x576.jpg",
+        "year" : "2011"
+    },
+    {
+        "title": "Brighter Blooms",
+        "artist": "Lourry Legarde",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa eget justo pharetra rutrum. Ut vehicula erat at ex consectetur vulputate. Aliquam id sapien pharetra, elementum metus sit amet, elementum neque. Ut vitae feugiat ante.",
+        "image": "/images/brighter-blooms-yellow-and-gray-modern-artwork-lourry-legarde.jpg",
+        "year" : "2011"
+    }
+]
+}
