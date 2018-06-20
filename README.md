@@ -18,5 +18,7 @@ $ npm start
 # generate static project
 $ npm run generate
 ```
+build 1.0.1
+    - completed homepage and added service worker
 
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.
