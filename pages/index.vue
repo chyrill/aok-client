@@ -14,7 +14,11 @@
             <div id="grid-item">
                 <browseAuction />
             </div>
+            <div id="grid-item">
+                <browseRecentlySold />
+            </div>
         </div>
+         <footerComp />
     </div>
 </template>
 
@@ -25,14 +29,17 @@ import curatedArtwork from '@/components/homepage/curated_artwork'
 import browseCategory from '@/components/homepage/browse_category'
 import browsePrice from '@/components/homepage/browse_price'
 import browseAuction from '@/components/homepage/auctionEndComp'
-
+import browseRecentlySold from '@/components/homepage/recentsoldcomp'
+import footerComp from '@/components/footer/footercomp'
 export default {
     components: {
         carousel,
         curatedArtwork,
         browseCategory,
         browsePrice,
-        browseAuction
+        browseAuction,
+        browseRecentlySold,
+        footerComp
     }
 }
 </script>

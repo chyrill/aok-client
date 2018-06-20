@@ -86,7 +86,7 @@ export default {
         font-family: 'Nunito Sans', sans-serif;
     }
 
-     @media only screen and (max-width: 600px)  {
+     @media only screen and (max-width: 768px)  {
         .wrapper {
             display: grid;
             grid-template-columns: repeat(8, 70vw);
@@ -95,6 +95,18 @@ export default {
             overflow-x:auto;
             grid-template-areas: 
                 "d p pa a m c s p1"
+        }
+    }
+    @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+       .wrapper {
+            display: grid;
+            grid-template-columns: repeat(5,80fr);
+            grid-gap: 5px;
+            grid-template-rows: auto;
+            grid-template-areas: 
+                "a a a m c"
+                "d p pa s p1";
+            overflow-x:auto;
         }
     }
 </style>

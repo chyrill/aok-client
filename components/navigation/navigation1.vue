@@ -33,11 +33,12 @@
         </v-navigation-drawer>
         <v-toolbar app color="black" dark flat scroll-off-screen
 >
-            <v-toolbar-side-icon class="layout hidden-md-and-up layout" @click.stop="sideDrawer = !sideDrawer"></v-toolbar-side-icon>
-            <v-toolbar-title class="pl-5 pr-5 hidden-sm-and-down" style="padding-top:28px"><img src="/artgallery2.png" /></v-toolbar-title>
-            <img src="/artgallery2.png" style="padding-top:7%" class="hidden-md-and-up"/>
-            <v-spacer class="hidden-md-and-up"></v-spacer>
-            <v-toolbar-items class="layout hidden-md-and-up">
+            <v-toolbar-side-icon class="layout justify-start hidden-md-and-up " @click.stop="sideDrawer = !sideDrawer"></v-toolbar-side-icon>
+            <v-toolbar-title class="pl-5 pr-5 hidden-md-and-down " style="padding-top:28px"><img src="/artgallery2.png" /></v-toolbar-title>
+            <img src="/artgallery2.png" style="padding-top:7%" class="hidden-sm-and-up"/>
+            <img src="/artgallery2.png" style="padding-top:28px" class="layout justify-center hidden-xs-only hidden-md-and-up"/>
+            <v-spacer class="hidden-xs-and-up"></v-spacer>
+            <v-toolbar-items class="layout justify-end hidden-md-and-up"> 
                 <v-btn icon flat @click.stop="searchOpen = !searchOpen">
                     <v-icon>search</v-icon>
                 </v-btn>
@@ -53,8 +54,8 @@
                 <v-btn fab icon flat>
                     <v-icon>search</v-icon>
                 </v-btn>
-                <v-btn flat>Sign Up</v-btn>
-                <v-btn flat>Log In</v-btn>
+                <v-btn flat class="hidden-sm-and-down">Sign Up</v-btn>
+                <v-btn flat class="hidden-sm-and-down">Log In</v-btn>
             </v-toolbar-items>
         </v-toolbar>
         <v-content>

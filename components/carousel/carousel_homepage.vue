@@ -65,7 +65,7 @@
   border: 2px solid white;
   padding:5px 15px 5px 15px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 736px) {
   #wrapper {
     height: 100%;
     padding:0;
@@ -128,7 +128,6 @@ export default {
   methods: {
     getFeaturedArtworks() {
       this.carouselArtwork = data.data;
-      console.log(this.carouselArtwork);
     }
   },
   mounted() {

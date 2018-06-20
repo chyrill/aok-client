@@ -40,13 +40,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     #wrapper {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: auto;
     }
-    @media only screen and (max-width: 600px)  {
+    #grid-item {
+        grid-column: 1fr;
+    }
+    @media only screen and (max-width: 768px)  {
         #wrapper {
             display: grid;
             grid-template-columns: repeat(3,90vw);

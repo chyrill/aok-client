@@ -12,7 +12,7 @@
 </template>
 
 
-<style>
+<style scoped>
  * {
      font-family: 'Nunito Sans', 'sans-serif'
  }
@@ -22,15 +22,16 @@
      grid-template-rows: 150px;
      grid-gap: 20px;
  }
- #grid-item {
-     grid-column: auto;
- }
-  @media only screen and (max-width: 600px)  {
+#grid-item {
+    grid-column: auto;
+}
+  @media only screen and (max-width: 768px)  {
         #wrapper {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: 150px;
-            grid-gap: 10px;
+            grid-gap: 5px;
+            overflow-x: none;
         }
     }
 </style>
