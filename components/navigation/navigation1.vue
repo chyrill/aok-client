@@ -3,7 +3,7 @@
         <v-navigation-drawer class="grey darken-3" app v-model="sideDrawer">
             <v-toolbar class="transparent pa-4" flat dark>
                 <v-toolbar-items class="layout justify-center">
-                    <v-btn flat>Sign Up</v-btn>
+                    <v-btn flat @click="signUp=!signUp">Sign Up</v-btn>
                     <v-btn flat>Log In</v-btn>
                 </v-toolbar-items>
                 <v-spacer></v-spacer>
@@ -54,7 +54,7 @@
                 <v-btn fab icon flat>
                     <v-icon>search</v-icon>
                 </v-btn>
-                <v-btn flat class="hidden-sm-and-down">Sign Up</v-btn>
+                <v-btn flat class="hidden-sm-and-down" @click="signUp =!signUp">Sign Up</v-btn>
                 <v-btn flat class="hidden-sm-and-down">Log In</v-btn>
             </v-toolbar-items>
         </v-toolbar>
@@ -66,6 +66,10 @@
             </v-card>
             <nuxt/>
         </v-content>
+        <v-dialog v-model="signUp" max-width="500" :fullscreen="mobileDevice" hide-overlay transition="dialog-bottom-transition" style="overflow: hidden;">
+            <sign-up-comp @nextRegister="nextRegister" v-if="!nextSection"/>
+            <next-section-comp v-if="nextSection"/>
+        </v-dialog>
     </div>
 </template>
 <style scoped>
@@ -74,10 +78,14 @@
 }
 </style>
 <script>
+import SignUpComp from '../signup/signup'
+import NextSectionForm from '../signup/nextsection'
 /* eslint-disable */
 export default {
     data() {
         return {
+            nextSection: false,
+            signUp: false,
             sideDrawer: false,
             sideDrawerColor: '#292929',
             navigationLinks: [{
@@ -106,10 +114,37 @@ export default {
                 }
             ],
             bottomNavigationLinks: ['Curated Artworks', 'Browse by Categories', 'Browse by Price', 'Auctions Ending Today', 'Recently Sold Artworks'],
-            searchOpen: false
+            searchOpen: false,
+            mobileDevice: false
         }
     },
     methods: {
+        getWindowWidth(event) {
+            var width = document.documentElement.clientWidth
+            if (width < 600) {
+                this.mobileDevice = true
+            }
+            else {
+                this.mobileDevice = false
+            }
+        },
+        nextRegister(value) {
+            this.nextSection=value;
+        }
+    },
+    components: {
+        'sign-up-comp': SignUpComp,
+        'next-section-comp': NextSectionForm
+    },
+    mounted () {
+        this.$nextTick(function() {
+        window.addEventListener('resize', this.getWindowWidth);
+        
+        this.getWindowWidth()
+        })
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.getWindowWidth);
     }
 }
 </script>
