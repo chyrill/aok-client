@@ -22,6 +22,7 @@ build 1.0.1
     - completed homepage and added service worker
 
 build 1.0.2
-    - completed sign up form
+    - completed sign up form something wrong HAHAHA
+    
 
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.
