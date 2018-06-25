@@ -23,6 +23,8 @@ build 1.0.1
 
 build 1.0.2
     - completed sign up form something wrong HAHAHA
-    
+
+build 1.0.3
+    - fix sign up and completed login form
 
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.

@@ -11,16 +11,18 @@
                         <divider title="sign up" />
                     </div>
                     <v-container fill-height fluid>
-                        <v-layout fill-height />
                         <v-layout row wrap fill-height>
-                            <v-flex xs12 flexbox>
-                                <v-btn block outline>I am a collector (Buyer)</v-btn>
+                            <v-flex xs12>
+                                <v-btn block :outline="!buyer" @click="clickBuyer" :dark="buyer" color="black" class="btn_select">I am a collector (Buyer)</v-btn>
                             </v-flex>
-                            <v-flex xs12 flexbox>
-                                <v-btn block outline>I am a artist (Seller)</v-btn> 
+                            <v-flex xs12>
+                                <v-btn block :outline="!seller" @click="clickSeller" :dark="seller" class="btn_select">I am a artist (Seller)</v-btn> 
                             </v-flex>
                         </v-layout>
                     </v-container>
+                    <div class="pt-5">
+                        <v-btn block color="black" dark>Next</v-btn>
+                    </div>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
@@ -43,7 +45,8 @@ export default {
     data () {
         return {
             mobileDevice : false,
-            paddingMobile: 0
+            seller: false,
+            buyer: false
         }
     },
     methods: {
@@ -54,11 +57,20 @@ export default {
             }
             else {
                 this.mobileDevice = 'auto'
-                this.paddingMobile = 0
             }
         },
         onRegister (value) {
             this.$emit('nextRegister', true)
+        },
+        clickBuyer () {
+            this.buyer = !this.buyer
+            if (this.seller) 
+                this.seller = false
+        },
+        clickSeller () {
+            this.seller = !this.seller
+            if (this.buyer) 
+                this.buyer = false
         }
     },
     mounted () {
@@ -75,6 +87,11 @@ export default {
 </script>
 
 <style scoped>
-
+    * {
+        text-transform: none;
+    }
+    .btn_select {
+        height: 50px;
+    }
 </style>
 

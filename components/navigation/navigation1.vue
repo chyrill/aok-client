@@ -55,7 +55,7 @@
                     <v-icon>search</v-icon>
                 </v-btn>
                 <v-btn flat class="hidden-sm-and-down" @click="signUp =!signUp">Sign Up</v-btn>
-                <v-btn flat class="hidden-sm-and-down">Log In</v-btn>
+                <v-btn flat class="hidden-sm-and-down" @click="login =!login">Log In</v-btn>
             </v-toolbar-items>
         </v-toolbar>
         <v-content>
@@ -66,9 +66,12 @@
             </v-card>
             <nuxt/>
         </v-content>
-        <v-dialog v-model="signUp" max-width="500" :fullscreen="mobileDevice" hide-overlay transition="dialog-bottom-transition" style="overflow: hidden;">
+        <v-dialog v-model="signUp" max-width="500" :fullscreen="mobileDevice" hide-overlay transition="dialog-bottom-transition">
             <sign-up-comp @nextRegister="nextRegister" v-if="!nextSection"/>
             <next-section-comp v-if="nextSection"/>
+        </v-dialog>
+        <v-dialog v-model="login" max-width="500" :fullscreen="mobileDevice" hide-overlay transition="dialog-top-transition">
+            <login-comp />
         </v-dialog>
     </div>
 </template>
@@ -80,10 +83,12 @@
 <script>
 import SignUpComp from '../signup/signup'
 import NextSectionForm from '../signup/nextsection'
+import LoginComp from '../login/login'
 /* eslint-disable */
 export default {
     data() {
         return {
+            login: false,
             nextSection: false,
             signUp: false,
             sideDrawer: false,
@@ -134,7 +139,8 @@ export default {
     },
     components: {
         'sign-up-comp': SignUpComp,
-        'next-section-comp': NextSectionForm
+        'next-section-comp': NextSectionForm,
+        'login-comp' : LoginComp
     },
     mounted () {
         this.$nextTick(function() {
