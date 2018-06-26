@@ -4,7 +4,7 @@
             <v-toolbar class="transparent pa-4" flat dark>
                 <v-toolbar-items class="layout justify-center">
                     <v-btn flat @click="signUp=!signUp">Sign Up</v-btn>
-                    <v-btn flat>Log In</v-btn>
+                    <v-btn flat @click="login=!login">Log In</v-btn>
                 </v-toolbar-items>
                 <v-spacer></v-spacer>
                 <v-btn icon flat dark @click.stop="sideDrawer = !sideDrawer">
