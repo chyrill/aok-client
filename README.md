@@ -27,4 +27,8 @@ build 1.0.2
 build 1.0.3
     - fix sign up and completed login form
 
+build 1.0.4
+    - completed components [bidders, charity, description, details, photo gallery] for view artwork
+    - visit /artwork/1
+    
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.
