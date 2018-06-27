@@ -15,7 +15,7 @@
                                  {{item.description}}
                              </div>
                              <div id="button">
-                                 <button id="view_btn">View Artwork</button>
+                                 <a href="/artwork/1"><button id="view_btn">View Artwork</button></a>
                              </div>
                          </div>
                     </div>
@@ -26,6 +26,9 @@
 </template>
 
 <style scoped>
+a {
+  color: white;
+}
 #wrapper {
   padding-top: 10%;
   padding-bottom: 10%;

@@ -1,6 +1,6 @@
 # aok.client
 
-> Nuxt.js + Vuetify.js project
+> Aok client
 
 ## Build Setup
 
