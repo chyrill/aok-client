@@ -15,7 +15,7 @@
                                  {{item.description}}
                              </div>
                              <div id="button">
-                                 <a href="/artwork/1"><button id="view_btn">View Artwork</button></a>
+                                 <a href="/artwork"><button id="view_btn">View Artwork</button></a>
                              </div>
                          </div>
                     </div>
