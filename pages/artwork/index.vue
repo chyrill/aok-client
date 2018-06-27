@@ -17,8 +17,10 @@
                 <bidders-comp />
             </div>
             <div id="more_artworks">
+                <artwork-listing-comp title="more artworks from patrick cabral" :artworks="artworks" />
             </div>
             <div id="might_like">
+                <artwork-listing-comp title="you might also like" :artworks="artworks1" />
             </div>
         </div>  
         <div class="pt-3">
@@ -37,6 +39,8 @@ import artworkdetailscomp from '@/components/viewartwork/artworkdetailscomp'
 import artworkdescriptioncomp from '@/components/viewartwork/artworkdescription'
 import charitycomp from '@/components/viewartwork/charitycomp'
 import bidderscomp from '@/components/viewartwork/biddercomp'
+import artworklistcomp from '@/components/viewartwork/artworkslisting'
+import response from '@/src/data/recently_sold_data'
 
 export default {
     components: {
@@ -45,7 +49,14 @@ export default {
         'artwork-details-comp' : artworkdetailscomp,
         'artwork-description-comp': artworkdescriptioncomp,
         'charity-comp': charitycomp,
-        'bidders-comp': bidderscomp
+        'bidders-comp': bidderscomp,
+        'artwork-listing-comp' : artworklistcomp
+    },
+    data () {
+        return {
+            artworks: response.RecentlySoldData.slice(0,4),
+            artworks1: response.RecentlySoldData.slice(4,8)
+        }
     }
 }
 </script>
@@ -59,7 +70,7 @@ export default {
         width: 100%;
         display: grid;
         grid-template-columns: 70% 30%;
-        grid-template-rows: 600px auto 620px 1fr 1fr;
+        grid-template-rows: 600px auto 620px auto auto;
         grid-gap: 20px;
         grid-template-areas: 
             "pg ad"
@@ -91,7 +102,7 @@ export default {
         min-height: 200px;
     }
     #might_like {
-        grid-area: ma;
+        grid-area: ml;
         min-height: 200px;
     }
     @media only screen and (max-width: 768px) {
@@ -111,8 +122,8 @@ export default {
                 "ades"
                 "c"
                 "b"
-                "ml"
                 "ma"
+                "ml"
         
         }
     }
