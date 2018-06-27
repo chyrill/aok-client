@@ -9,7 +9,7 @@
             <v-divider></v-divider>
             <v-card-text>
                 <div class="pt-1" style="width:100%; line-height: 1.6">
-                    <span style="font-size:24px; font-weight: 700; float: left; height: 24px;">Lynx, 2016</span> <span style="float:right"><v-btn icon fab small outline><v-icon>favorite_border</v-icon></v-btn><v-btn icon fab small style="background-color: #3b5bdb" dark><v-icon>fab fa-facebook-f</v-icon></v-btn></span><br>
+                    <span style="font-size:24px; font-weight: 700; float: left; height: 24px;">Lynx, 2016</span> <span style="float:right"><v-btn icon fab small  :flat="isActive" :color="isActive? 'pink': 'white'" @click="isActive = !isActive"><v-icon>{{ isActive ? 'favorite' : 'favorite_border'}}</v-icon></v-btn><v-btn icon fab small style="background-color: #3b5bdb" dark><v-icon>fab fa-facebook-f</v-icon></v-btn></span><br>
                 </div>
                 <div class="pt-2">
                     <span style="font-size: 16px;">Patrick Cabral</span>
@@ -63,7 +63,8 @@ export default {
     data () {
         return {
             now : Math.trunc((new Date()).getTime() /1000),
-            date : Math.trunc((new Date('07/07/2018')).getTime() /1000)
+            date : Math.trunc((new Date('07/07/2018')).getTime() /1000),
+            isActive: false
         }
     },
     mounted () {

@@ -8,10 +8,13 @@
                 <artwork-details-comp />
             </div>
             <div id="art_description">
+                <artwork-description-comp />
             </div>
             <div id="charity">
+                <charity-comp />
             </div>
             <div id="bidders">
+                <bidders-comp />
             </div>
             <div id="more_artworks">
             </div>
@@ -31,12 +34,18 @@
 import footerComp from '@/components/footer/footercomp'
 import photogallerycomp from '@/components/viewartwork/photogallerycomp'
 import artworkdetailscomp from '@/components/viewartwork/artworkdetailscomp'
+import artworkdescriptioncomp from '@/components/viewartwork/artworkdescription'
+import charitycomp from '@/components/viewartwork/charitycomp'
+import bidderscomp from '@/components/viewartwork/biddercomp'
 
 export default {
     components: {
         'footer-comp' : footerComp,
         'photo-gallery-comp': photogallerycomp,
-        'artwork-details-comp' : artworkdetailscomp
+        'artwork-details-comp' : artworkdetailscomp,
+        'artwork-description-comp': artworkdescriptioncomp,
+        'charity-comp': charitycomp,
+        'bidders-comp': bidderscomp
     }
 }
 </script>
@@ -94,7 +103,7 @@ export default {
             padding-left:10px !important;
             padding-right:10px !important;
             grid-template-columns: 100%;
-            grid-template-rows: auto auto 620px 1fr 1fr;
+            grid-template-rows: auto auto 100% 100% 1fr;
             grid-gap: 20px;
             grid-template-areas: 
                 "pg"
