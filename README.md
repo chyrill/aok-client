@@ -33,6 +33,9 @@ build 1.0.4
 
 build 1.0.5 
     - finished artwork page
+
+build 1.0.6
+    - added artist profile component and page
     
     
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.
