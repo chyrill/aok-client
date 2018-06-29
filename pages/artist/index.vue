@@ -4,7 +4,9 @@
             <div id="profile">
                 <artist-profile-comp />
             </div>
-            <div id="artworks"></div>
+            <div id="artworks">
+                <artworks-comp />
+            </div>
         </div>    
         <div class="pt-5">
             <footer-comp />
@@ -18,10 +20,12 @@
 /* eslint-disable */
 import artistprofilecomp from '@/components/artist/artistprofile'
 import footerComp from '@/components/footer/footercomp'
+import artworksComp from '@/components/artist/artworkscomp'
 
 export default {
     components: {
         'artist-profile-comp'  : artistprofilecomp,
+        'artworks-comp' : artworksComp,
         'footer-comp': footerComp
     }    
 }
@@ -35,7 +39,7 @@ export default {
         padding: 2% 5% 0 5%;
         width:100%;
         display: grid;
-        grid-template-columns: 440px 55%;
+        grid-template-columns: 440px 65%;
         grid-gap: 15px;
         grid-template-rows: 990px;
     }
@@ -45,7 +49,7 @@ export default {
             padding: 2% 2% 0 2%;
             width:100%;
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 96vw;
             grid-gap: 15px;
             grid-template-rows: 990px;
         }
