@@ -5,28 +5,28 @@
         </div>
         <div class="wrapper">
             <div id="abstract_item">
-                <categoryCard title="abstract" count="12" image="/images/abstract_cat.jpg" />
+                <categoryCard title="abstract" count="12" image="/images/abstract_cat.jpg" link="/artwork/abstract"/>
             </div>
             <div id="modern_item">
-                <categoryCard title="modern" count="1" image="/images/modern_cat.jpg" />
+                <categoryCard title="modern" count="1" image="/images/modern_cat.jpg" link="/artwork/modern"/>
             </div>
             <div id="contemp_item">
-                <categoryCard title="contemporary" count="21" image="/images/contemporary_cat.jpeg" />
+                <categoryCard title="contemporary" count="21" image="/images/contemporary_cat.jpeg" link="/artwork/contemporary"/>
             </div>
             <div id="digital_item">
-                <categoryCard title="digital" count="3" image="/images/digital_cat.png" />
+                <categoryCard title="digital" count="3" image="/images/digital_cat.png" link="/artwork/digital"/>
             </div>
             <div id="photo_item">
-                <categoryCard title="photography" count="78" image="/images/photo_cat.jpg" />
+                <categoryCard title="photography" count="78" image="/images/photo_cat.jpg" link="/artwork/photography"/>
             </div>
             <div id="paper_item">
-                <categoryCard title="papercut" count="2" image="/images/paper_cat.jpg" />
+                <categoryCard title="papercut" count="2" image="/images/paper_cat.jpg" link="/artwork/papercut"/>
             </div>
             <div id="stree_item">
-                <categoryCard title="street art" count="7" image="/images/street_cat.jpg" />
+                <categoryCard title="street art" count="7" image="/images/street_cat.jpg" link="/artwork/streetart"/>
             </div>
             <div id="photo_item1">
-                <categoryCard title="photography" count="78" image="/images/photo_cat.jpg" />
+                <categoryCard title="photography" count="78" image="/images/photo_cat.jpg" link="/artwork/photography" />
             </div>
         </div>
     </div>

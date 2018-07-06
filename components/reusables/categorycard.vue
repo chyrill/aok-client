@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-card class="pa-1" flat>
+        <v-card class="pa-1" flat :to="link">
             <v-card-media :src="image" height="200">
                 <v-container fill-height fluid>
                     <v-layout fill-height/>
@@ -19,7 +19,7 @@
 /* eslint-disable */
 
 export default {
-    props: [ 'title', 'count', 'image']
+    props: [ 'title', 'count', 'image', 'link']
 }
 </script>
 

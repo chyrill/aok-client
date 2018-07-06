@@ -34,7 +34,7 @@
         <v-toolbar app color="black" dark flat scroll-off-screen
 >
             <v-toolbar-side-icon class="layout justify-start hidden-md-and-up " @click.stop="sideDrawer = !sideDrawer"></v-toolbar-side-icon>
-            <v-toolbar-title class="pl-5 pr-5 hidden-md-and-down " style="padding-top:28px"><img src="/artgallery2.png" /></v-toolbar-title>
+            <v-toolbar-title class="pl-5 pr-5 hidden-md-and-down " style="padding-top:28px"><a href="/"><img src="/artgallery2.png" /></a></v-toolbar-title>
             <img src="/artgallery2.png" style="padding-top:7%" class="hidden-sm-and-up"/>
             <img src="/artgallery2.png" style="padding-top:28px" class="layout justify-center hidden-xs-only hidden-md-and-up"/>
             <v-spacer class="hidden-xs-and-up"></v-spacer>

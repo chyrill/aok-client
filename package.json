@@ -1,6 +1,6 @@
 {
   "name": "aok.client",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Artwork gallery client-side AOK",
   "author": "al cabrera <chyrill.cabrera@gmail.com>",
   "private": true,
