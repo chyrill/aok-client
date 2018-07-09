@@ -12,7 +12,7 @@ module.exports = {
         }, {
             hid: 'description',
             name: 'description',
-            content: 'Nuxt.js + Vuetify.js project'
+            content: 'Artwork gallery'
         }],
         link: [{
             rel: 'icon',

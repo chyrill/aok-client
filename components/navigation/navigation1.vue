@@ -35,7 +35,7 @@
 >
             <v-toolbar-side-icon class="layout justify-start hidden-md-and-up " @click.stop="sideDrawer = !sideDrawer"></v-toolbar-side-icon>
             <v-toolbar-title class="pl-5 pr-5 hidden-md-and-down " style="padding-top:28px"><a href="/"><img src="/artgallery2.png" /></a></v-toolbar-title>
-            <img src="/artgallery2.png" style="padding-top:7%" class="hidden-sm-and-up"/>
+            <a href="/" style="padding-top:7%" ><img src="/artgallery2.png" class="hidden-sm-and-up"/></a>
             <img src="/artgallery2.png" style="padding-top:28px" class="layout justify-center hidden-xs-only hidden-md-and-up"/>
             <v-spacer class="hidden-xs-and-up"></v-spacer>
             <v-toolbar-items class="layout justify-end hidden-md-and-up"> 

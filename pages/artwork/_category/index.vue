@@ -17,30 +17,74 @@
         </div>
         <div class="wrapper pl-5 pr-5 pt-3">
             <div id="filter">
-                <v-container fill-height fluid grid-list-sm>
-                    <v-layout row wrap> 
-                        <v-flex xs1>
-                            <br>
-                            Filter:
-                        </v-flex>
-                        <v-flex xs3>
-                            <v-select label="Price Range" solo flat id="selectItem"/>
-                        </v-flex>
-                        <v-flex xs5>
-                            <v-select label="Acrylic on Canvass" solo flat id="selectItem" />
-                        </v-flex>
-                        <v-flex xs3>
-                            <v-select label="Year Made" solo flat id="selectItem" />
-                        </v-flex>
-                    </v-layout>
-                </v-container>
+                <div class="hidden-md-and-up">
+                    <v-card :flat="!displayFilter">                
+                        <div style="width:100%">
+                            <v-btn block flat id="btn" @click="displayFilter = !displayFilter">Filter</v-btn>
+                        </div>                        
+                        <v-slide-y-transition>
+                            <v-card-text v-show="displayFilter">
+                                <v-container fill-height fluid grid-list-sm>
+                                    <v-layout row wrap> 
+                                        <v-flex xs12>
+                                            <v-select label="Price Range" solo flat id="selectItem"/>
+                                        </v-flex>
+                                        <v-flex xs12>
+                                            <v-select label="Acrylic on Canvass" solo flat id="selectItem" />
+                                        </v-flex>
+                                        <v-flex xs12>
+                                            <v-select label="Year Made" solo flat id="selectItem" />
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
+                            </v-card-text>  
+                        </v-slide-y-transition>                   
+                    </v-card>
+                </div>
+                <div class="hidden-sm-and-down">
+                    <v-container fill-height fluid grid-list-sm>
+                        <v-layout row wrap> 
+                            <v-flex xs1>
+                                <br>
+                                Filter:
+                            </v-flex>
+                            <v-flex xs3>
+                                <v-select label="Price Range" solo flat id="selectItem"/>
+                            </v-flex>
+                            <v-flex xs5>
+                                <v-select label="Acrylic on Canvass" solo flat id="selectItem" />
+                            </v-flex>
+                            <v-flex xs3>
+                                <v-select label="Year Made" solo flat id="selectItem" />
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </div>
             </div>
             <div id="sort">
-                <v-select label="Sort By" solo flat id="selectItem" /> 
+                <div class="hidden-sm-and-down">
+                    <v-select label="Sort By" solo flat id="selectItem" /> 
+                </div>
+                <div class="hidden-md-and-up">
+                    <v-card :flat="!sortDisplay">
+                        <div style="width: 100%;">
+                            <v-btn block flat id="btn" @click="sortDisplay = !sortDisplay">Sort By</v-btn>
+                        </div>
+                        <v-slide-y-transition>
+                            <v-card-text v-show="sortDisplay">
+                                <v-btn block flat id="btnSort">Title</v-btn>
+                                <v-btn block flat id="btnSort">Year</v-btn>
+                                <v-btn block flat id="btnSort">Price</v-btn>
+                            </v-card-text>
+                        </v-slide-y-transition>
+                    </v-card>                   
+                </div>
             </div>
         </div>
-        <div class="artworklisting pt-3 pl-5 pr-5">
-
+        <div class="artworklisting pt-3 pl-5 pr-5 pb-5">
+            <div v-for="(item,index) in artworks" :key="index">
+                <artwork-comp heightCard="420" :artwork="item"/>
+            </div>
         </div>
         <footerComp />
     </div>
@@ -49,12 +93,34 @@
 <script>
 /* eslint-disable */
 import footerComp  from '@/components/footer/footercomp'
+import artworkComp from '@/components/reusables/artworkcardcompwithcharity'
+import response from '@/src/data/recently_sold_data'
 
 export default {
     mounted () {
+        var deviceWidth = document.documentElement.clientWidth
+
+        if (deviceWidth <= 768) 
+            this.mobileDevice = true 
+
+        this.$nextTick( () => {
+            window.addEventListener('resize',function (){
+                var width = document.documentElement.clientWidth
+               
+                if (width <= 768) {
+                    this.mobileDevice = true
+                }
+                else 
+                    this.mobileDevice = false
+            })
+        })
+
         var category = this.$route.params.category
 
         this.banner = this.categoryListing.find(x=> x.route === category)
+        this.getArtwork()
+
+        
     },
     data () {
         return {
@@ -103,11 +169,23 @@ export default {
                 }
             ],
             banner: {},
-            mobileDevice: false
+            mobileDevice: false,
+            artworks: [],
+            displayFilter: false,
+            sortDisplay: false
         }   
     },
     components: {
-        footerComp
+        footerComp,
+        'artwork-comp': artworkComp
+    },
+    methods: {
+        getArtwork () {
+            this.artworks = response.RecentlySoldData
+        },
+        getDisplayWidth () {
+            return document.documentElement.clientWidth
+        }
     }
 }
 </script>
@@ -144,6 +222,35 @@ export default {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: auto;
-        grid-gap: 10px;
+        grid-gap: 20px;
+    }
+    @media screen and (max-width: 768px) {
+        .wrapper {
+            padding: 5px 15px 5px 15px !important;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            grid-gap: 1px;
+            grid-template-areas:
+                "f"
+                "s"
+        }
+        .artworklisting {
+            padding: 5px 15px 30px 15px !important;
+            display: grid;
+            grid-template-columns: repeat(4, 90vw);
+            grid-template-rows: auto;
+            grid-gap: 10px;
+            overflow-y: auto;
+        }
+    }
+    #btn {
+        border-bottom: 1px solid grey;  
+        text-transform: none;
+        height: 45px;
+    }
+    #btnSort {
+        border: 1px solid black;
+        text-transform: none;
     }
 </style>

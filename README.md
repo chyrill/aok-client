@@ -42,5 +42,8 @@ build 1.0.7
     
 build 1.0.8
     - category page develop
+
+build 1.0.9
+    - Finished category page
     
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.
