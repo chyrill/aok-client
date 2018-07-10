@@ -54,7 +54,7 @@ export default {
         }
     },
     mounted () {
-        var id = this.$route.params.id
+        var id = this.$route.params.charityId
 
         this.getCharityProfile(id)
         this.getArtworks()
