@@ -47,14 +47,14 @@ export default {
     },
     methods: {
         getCharityProfile (id){
-            this.charity = response.data.find(x=> x.id == id)
+            this.charity = response.data.find(x=> x.id == 1)
         },
         getArtworks () {
             this.artworkList = responseArts.RecentlySoldData.slice(0,9)
         }
     },
     mounted () {
-        var id = this.$route.params.charityId
+        var id = 1
 
         this.getCharityProfile(id)
         this.getArtworks()
