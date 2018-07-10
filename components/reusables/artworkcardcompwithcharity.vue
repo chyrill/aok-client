@@ -17,7 +17,7 @@
            </v-card-title>
            <v-divider></v-divider>
            <div style="text-align: center" class="pt-2 pb-1">
-               <span style="font-weight:700">{{artwork.charity}}</span>
+               <a href="/charity/1"><span style="font-weight:700">{{artwork.charity}}</span></a>
            </div>
         </v-card>
     </div>     
@@ -48,6 +48,10 @@ export default {
     }
     .container {
         padding: 0;
+    }
+    a {
+        text-decoration: none;
+        color: black;
     }
 </style>
 

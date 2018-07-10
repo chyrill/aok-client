@@ -55,7 +55,6 @@ export default {
     methods: {
         getData () {
             this.RecentlySoldItems = data.RecentlySoldData
-            console.log(this.RecentlySoldItems)
         }
     }
 }

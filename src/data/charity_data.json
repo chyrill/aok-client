@@ -1,0 +1,32 @@
+{
+    "data" : [
+        {
+            "id" : 1,
+            "short_name": "WWF",
+            "name": "World Wide Fund for Nature",
+            "video_url": "https://www.youtube.com/embed/MNmNY95jGIA?rel=1&amp;controls=1&amp;showinfo=1",
+            "display_photo": "/charity/wwf.png",
+            "banner": "/charity/banner.jpg",
+            "campaigns": [
+                {
+                    "title": "Help the Elephants!",
+                    "campaign_goal": 10000 ,
+                    "donations": 340,
+                    "number_donations": 10,
+                    "likes": 45,
+                    "shares": 400,
+                    "image": "/charity/banner.jpg"
+                },
+                {
+                    "title": "Save the Antartic!",
+                    "campaign_goal": 200000 ,
+                    "donations": 6000,
+                    "number_donations": 34,
+                    "likes": 700,
+                    "shares": 930,
+                    "image": "/charity/polar.jpg"
+                }
+            ]
+        }
+    ]
+}
