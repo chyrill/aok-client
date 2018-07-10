@@ -50,4 +50,8 @@ build 1.0.10
     -charity profile done
 build 1.1.11
     -fix route
+
+build 1.2.3
+    -fix campaign component
+    
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.

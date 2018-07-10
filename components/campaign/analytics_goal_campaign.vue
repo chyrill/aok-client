@@ -4,7 +4,7 @@
             <v-card-media :src="campaign.image" height="215" class="white--text ">
                 <div style="width: 100%">
                     <div class="pa-2" id="itemData">
-                        <span>{{campaign.title}}</span> <br>
+                        <span style="font-size:14px; font-weight: 700;">{{campaign.title}}</span> <br>
                         <span style="float:left">end in {{remainingDays}} days</span> <span style="float: right">{{donationInPercentage}}% of ${{campaign.campaign_goal}}</span> <br>
                         <v-progress-linear v-model="donationInPercentage" color="orange lighten-2"></v-progress-linear>
                         <ul>
