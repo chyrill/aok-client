@@ -77,7 +77,7 @@ export default {
         }
     },
     mounted () {
-        this.artist = response.data
+        this.artist = response.data.slice(0,4)
     }
 }
 </script>

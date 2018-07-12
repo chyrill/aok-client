@@ -56,5 +56,8 @@ build 1.2.13
 
 build 1.2.14
     -artist page and artwork page completed
+
+build 1.2.15
+    -artist sort by category page complete
     
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.

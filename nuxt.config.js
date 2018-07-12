@@ -67,7 +67,11 @@ module.exports = {
     generate: {
         routes: [
             '/artists/1/artist',
-            '/artworks/1/artwork'
+            '/artworks/1/artwork',
+            '/artists/modern/category',
+            '/artists/streetart/category',
+            '/artists/photography/category',
+            '/artists/abstract/category'
         ]
     }
 }

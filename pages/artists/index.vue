@@ -27,7 +27,7 @@ export default {
     data () {
         return {
             categories: ['street art', 'contemporary', 'modern','digital','photography','abstract', 'papercut'],
-            artists: response.data
+            artists: response.data.slice(0,4)
         }
     }
 }
