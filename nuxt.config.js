@@ -63,5 +63,11 @@ module.exports = {
     },
     modules: [
         '@nuxtjs/pwa'
-    ]
+    ],
+    generate: {
+        routes: [
+            '/artists/1/artist',
+            '/artworks/1/artwork'
+        ]
+    }
 }
