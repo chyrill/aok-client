@@ -1,0 +1,40 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Adieb Khadoure",
+            "description": "One of the most important things while creating is to make something meaningful. The same goes for fine art photography.",
+            "banner_title": "Photographer",
+            "display_photo": "/artist/adieb.jpg",
+            "featured_artwork_image": "/artist/photo.jpg",
+            "country": "India"
+        },
+        {
+            "id": 2,
+            "name": "Jaison Cianelli",
+            "description": "Aliquam vitae imperdiet est. Donec lobortis, est eget porttitor posuere, dolor ex dapibus ligula, et dapibus elit quam sed sapien. Donec eget varius ex.",
+            "banner_title": "Abstract Artist",
+            "display_photo": "/artist/cianelli.jpg",
+            "featured_artwork_image": "/artist/mother_earth.jpg",
+            "country": "Canada"
+        },
+        {
+            "id": 3,
+            "name": "Janusz Jurek",
+            "description": "Aliquam vitae imperdiet est. Donec lobortis, est eget porttitor posuere, dolor ex dapibus ligula, et dapibus elit quam sed sapien. Donec eget varius ex.",
+            "banner_title": "Digital Artist",
+            "display_photo": "/artist/janusz.jpg",
+            "featured_artwork_image": "/artist/digital_.jpg",
+            "country": "Russia"
+        },
+        {
+            "id": 4,
+            "name": "Sena Runa",
+            "description": "Proin lorem libero, bibendum ornare ipsum eu, gravida molestie nulla. Nam tempor sagittis mauris, sit amet aliquam ex elementum luctus.",
+            "banner_title": "Papercut Artist",
+            "display_photo": "/artist/sena.jpg",
+            "featured_artwork_image": "/artist/sena_runa.jpg",
+            "country": "Philippines"
+        }
+    ]
+}

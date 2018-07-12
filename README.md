@@ -51,7 +51,10 @@ build 1.0.10
 build 1.1.11
     -fix route
 
-build 1.2.3
+build 1.2.13
     -fix campaign component
+
+build 1.2.14
+    -artist page and artwork page completed
     
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.

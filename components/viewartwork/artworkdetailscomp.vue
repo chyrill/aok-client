@@ -12,7 +12,7 @@
                     <span style="font-size:24px; font-weight: 700; float: left; height: 24px;">Lynx, 2016</span> <span style="float:right"><v-btn icon fab small  :flat="isActive" :color="isActive? 'pink': 'white'" @click="isActive = !isActive"><v-icon>{{ isActive ? 'favorite' : 'favorite_border'}}</v-icon></v-btn><v-btn icon fab small style="background-color: #3b5bdb" dark><v-icon>fab fa-facebook-f</v-icon></v-btn></span><br>
                 </div>
                 <div class="pt-2">
-                  <span style="font-size: 16px;">  <a href="/artist" style="text-decoration: none; color: black;">Patrick Cabral</a></span>
+                  <span style="font-size: 16px;">  <a href="/artists/1/artist" style="text-decoration: none; color: black;">Patrick Cabral</a></span>
                 </div>
                 <div class="pt-5 pb-3" style="font-size: 16px;">
                     <span id="left_item" style="color: grey">Initial Price</span> <span id="right_item" style="font-weight:600">$1500</span> <br>

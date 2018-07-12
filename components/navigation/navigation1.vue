@@ -44,8 +44,8 @@
                 </v-btn>
             </v-toolbar-items>
             <v-toolbar-items class="layout justify-start hidden-sm-and-down">
-                <v-btn flat>Artworks</v-btn>
-                <v-btn flat>Artists</v-btn>
+                <v-btn flat to="/artworks">Artworks</v-btn>
+                <v-btn flat to="/artists">Artists</v-btn>
                 <v-btn flat>Charities</v-btn>
                 <v-btn flat>Blog</v-btn>
             </v-toolbar-items>
