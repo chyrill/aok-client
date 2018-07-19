@@ -59,5 +59,8 @@ build 1.2.14
 
 build 1.2.15
     -artist sort by category page complete
-    
+
+build 1.2.16 
+    -charities page completed
+
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.

@@ -17,7 +17,7 @@
            </v-card-title>
            <v-divider></v-divider>
            <div style="text-align: center" class="pt-2 pb-1">
-               <a href="/charity/sample"><span style="font-weight:700">{{artwork.charity}}</span></a>
+               <a href="/charities/1/charity"><span style="font-weight:700">{{artwork.charity}}</span></a>
            </div>
         </v-card>
     </div>     

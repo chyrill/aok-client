@@ -1,0 +1,44 @@
+{
+    "data": [
+        {
+            "name" : "SOS Childern's Village",
+            "display_photo": "/charity/SOS.jpg",
+            "country": "USA"
+        },
+        {
+            "name" : "Acumen",
+            "display_photo": "/charity/acumen.png",
+            "country": "South Asia"
+        },
+        {
+            "name" : "Bread of the World",
+            "display_photo": "/charity/bread.png",
+            "country": "USA"
+        },
+        {
+            "name" : "DoSomething",
+            "display_photo": "/charity/dosomething.jpg",
+            "country": "USA"
+        },
+        {
+            "name" : "WE Charity",
+            "display_photo": "/charity/we.png",
+            "country": "Canada"
+        },
+        {
+            "name" : "Greenpeace",
+            "display_photo": "/charity/greenpeace.jpg",
+            "country": "Netherlands"
+        },
+        {
+            "name" : "Habitat for Humanity",
+            "display_photo": "/charity/habitat.jpg",
+            "country": "USA"
+        },
+        {
+            "name" : "World Wide Fund for Nature",
+            "display_photo": "/charity/wwf.png",
+            "country": "Switzerland"
+        }
+    ]
+}
