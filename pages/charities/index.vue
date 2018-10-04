@@ -6,7 +6,7 @@
             </v-container>
         </div>
         <div id="listing">
-            <listing-comp :charities="charities"/>
+            <listing-comp :charities="getcharities"/>
         </div>
         <footer-comp />
     </div>
@@ -17,15 +17,16 @@
 import listingComp from '@/components/charity/listing_charity'
 import response from '@/src/data/charities_data'
 import footerComp from '@/components/footer/footercomp'
+import GET_CHARITIES from '@/graphql/charity/getcharities';
 
 export default {
     components: {
         'listing-comp' : listingComp,
         'footer-comp': footerComp
     },
-    data () {
-        return {
-            charities: response.data
+    apollo: {
+        getcharities: {
+            query: GET_CHARITIES
         }
     }
 }

@@ -1,0 +1,67 @@
+query getartwork ($id: ID!) {
+    artwork (id : $id) {
+        _id
+        pictures
+        title
+        price
+        category
+        description
+        year
+        medium
+        width
+        height
+        measurement
+        pledge
+        status
+        auctionEndDate
+        charity {
+            tagline
+            youtubeLink
+            displayBanner
+            description
+            name
+            displayPicture
+        }
+        artist {
+            _id
+            fullName
+            country
+        }
+        bids {
+            totalCount
+            items {
+                bidder {
+                    fullName
+                    displayPicture
+                    country
+                }
+                amount
+                dateCreated
+            }
+        }
+        sellingPrice
+        liked
+        related {
+            _id
+            title
+            year
+            sellingPrice
+            pictures
+            artist {
+                _id
+                fullName
+            }
+        }
+        also {
+            _id 
+            title
+            year
+            sellingPrice
+            pictures
+            artist {
+                _id
+                fullName
+            }
+        }
+    }
+}

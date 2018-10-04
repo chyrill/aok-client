@@ -1,0 +1,25 @@
+query artworks($filter: [String], $skip: Float, $limit: Float, $field: String, $isAscending: Boolean) {
+    artworks(
+        filter: $filter
+        sort: [
+            {
+                field: $field
+                isAscending: $isAscending
+            }
+        ]
+        skip: $skip
+        limit: $limit
+    ) {
+        items {
+            _id
+            title
+            year
+            pictures
+            artist {
+                _id
+                fullName
+            }
+        }
+        totalCount
+    }
+}

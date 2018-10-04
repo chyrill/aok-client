@@ -4,8 +4,8 @@
             <divider title="Auctions ending today" />
         </div>
         <div id="wrapper">
-            <div v-for="item in AuctionList" :key="item.title" id="grid-item">
-                <auction-card :title="item.title" :image="item.image" :size="item.size" :price="item.price" :artist="item.artist" :year="item.year" :meduim="item.meduim"/>
+            <div v-for="item in endingartwork" :key="item.title" id="grid-item">
+                <auction-card :artwork="item"/>
             </div>
         </div>
     </div>
@@ -18,6 +18,7 @@
 import divider from '../reusables/dividers'
 import auctionCard from '../reusables/auctionCard'
 import data from '@/src/data/sample-auction-data'
+import ENDING_ARTWORK_QUERY from '@/graphql/endingartwork'
 
 export default {
     components: {
@@ -30,11 +31,20 @@ export default {
         }
     },
     mounted () {
-        this.getAuctionList();
+        this.$store.watch(
+            (state) => {
+                this.AuctionList = state.endingartwork
+            }
+        )
     },
-    methods : {
-        getAuctionList () {
-            this.AuctionList = data.AuctionList
+    apollo: {
+        endingartwork: {
+            query: ENDING_ARTWORK_QUERY
+        }
+    },
+    watch: {
+        endingartwork: function (val) {
+            this.$store.dispatch('addEndingArtwork', val)
         }
     }
 }

@@ -2,10 +2,10 @@
     <div>
         <div id="wrapper">
             <div id="profile">
-                <artist-profile-comp />
+                <artist-profile-comp v-if="show" :profile="getuserbyprofileid"/>
             </div>
             <div id="artworks">
-                <artworks-comp />
+                <artworks-comp v-if="show" :artworks="getuserbyprofileid.artworks"/>
             </div>
         </div>    
         <div class="pt-5">
@@ -21,13 +21,32 @@
 import artistprofilecomp from '@/components/artist/artistprofile'
 import footerComp from '@/components/footer/footercomp'
 import artworksComp from '@/components/artist/artworkscomp'
+import GET_USER_PROFILE_QUERY from '@/graphql/query/getuserbyprofileid'
 
 export default {
     components: {
         'artist-profile-comp'  : artistprofilecomp,
         'artworks-comp' : artworksComp,
         'footer-comp': footerComp
-    }    
+    },
+    apollo: {
+        getuserbyprofileid: {
+            query: GET_USER_PROFILE_QUERY,
+            variables () {
+                return   { id : this.$route.params.id}
+            }
+        }
+    },
+    watch: {
+        getuserbyprofileid: function(val) {
+            if(val) {
+                this.show = true
+            }
+        }
+    },
+    data: () => ({
+        show: false
+    })
 }
 </script>
 

@@ -31,6 +31,7 @@ import browsePrice from '@/components/homepage/browse_price'
 import browseAuction from '@/components/homepage/auctionEndComp'
 import browseRecentlySold from '@/components/homepage/recentsoldcomp'
 import footerComp from '@/components/footer/footercomp'
+
 export default {
     components: {
         carousel,

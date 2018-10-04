@@ -1,0 +1,8 @@
+mutation buynow($artworkId: String, $buyNow: Boolean) {
+    buynow(data: {
+        artworkId: $artworkId
+        buyNow: $buyNow
+    }) {
+        _id
+    }
+}

@@ -1,0 +1,4 @@
+mutation removeshipmentone($id: ID!) {
+    removeshipmentone(id: $id) 
+}
+

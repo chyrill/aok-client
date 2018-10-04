@@ -1,0 +1,13 @@
+mutation addPaymentMethod($cardNumber: String, $cardType: String, $paymentType: String, $token: String) {
+    addPaymentMethod(data: {
+        cardNumber: $cardNumber
+        cardType: $cardType
+        paymentType: $paymentType
+        token: $token
+    }) {
+        _id
+        paymentType
+        cardType
+        cardNumber
+    }
+}

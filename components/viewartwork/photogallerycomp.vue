@@ -4,11 +4,8 @@
             <div id="wrapper">
                 <div id="main">
                     <v-card class="grey lighten-3" height="100%">
-                        <v-container fill-height fluid style="padding:0 !important">
-                            <v-layout fill-height/>
-                                <v-flex xs12 align-center flexbox style="text-align: center;">
-                                    <img :src="mainPhoto" id="main_photo"/>
-                                </v-flex>
+                        <v-container fill-height justify-center>
+                            <img :src="mainPhoto" id="main_photo"/>
                         </v-container>
                     </v-card>
                 </div>
@@ -28,9 +25,7 @@
 /* eslint-disable */
 
 export default {
-    props: [
-       'photos', 'main_photo'
-    ],
+    props: ['pictures'],
     data () {
         return {
             photoList: [],
@@ -38,10 +33,9 @@ export default {
         }
     },
     mounted () {
-        this.photoList = this.photos;
-        this.photoList = ['/images/500_p.jpg', '/images/10000_p.jpg', '/images/5000_p.jpg']
-        this.mainPhoto = this.main_photo;
-        this.mainPhoto = '/images/200_p.jpg'
+        console.log(this.pictures)    
+        this.mainPhoto = this.pictures[0]
+        this.photoList = this.pictures.slice(1, this.pictures.length)
     },
     methods: {
         changePhoto (item){
@@ -70,9 +64,9 @@ export default {
         grid-area: l
     }
     #main_photo {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
     }
     #wrapper_list {
         height: 100%;

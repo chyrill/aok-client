@@ -1,0 +1,60 @@
+mutation proceedpayment($orderId: ID!, $paymentMethodId: ID!, $shippingId: ID!, $shippingRate: Float, $shippingProviderId: ID!) {
+    proceedpayment(data: {
+        orderId: $orderId
+        paymentMethodId: $paymentMethodId
+        shippingId: $shippingId
+        shippingRate: $shippingRate
+        shippingProviderId: $shippingProviderId
+    }) {
+        order {
+            artwork {
+                _id
+                title
+                artist {
+                        _id
+                        fullName
+                }
+                pictures
+                year
+                height
+                width
+                length 
+                measurement
+                bids {
+                    totalCount 
+                    items {
+                        _id
+                        amount
+                    }
+                }
+                medium
+                pledge
+                charity {
+                    _id
+                    name
+                    displayPicture
+                }
+            }
+            buyNow
+            totalAmount
+            shippingRate
+            tax
+            price
+        }
+        paymentMethod {
+            _id
+            paymentType
+            cardType
+            cardNumber
+        }
+        shipping {
+            _id
+            address1
+            address2
+            city 
+            state
+            postalCode
+            country
+        }
+    }
+}

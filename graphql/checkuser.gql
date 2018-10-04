@@ -1,0 +1,8 @@
+mutation CheckUser($email:String!, $password:String!, $lastName:String!, $firstName:String!) {
+        checkuser(data: {
+            email: $email
+            password: $password,
+            lastName: $lastName,
+            firstName: $firstName
+        })
+}

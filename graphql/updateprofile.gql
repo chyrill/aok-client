@@ -1,0 +1,49 @@
+mutation updateprofile($_id: ID!, $firstName: String, $lastName: String, $birthdate: String, $mobileNumber: String, $gender: String, $displayPicture: String, $city: String, $country: String, $state: String, $address1: String, $postalCode: String) {
+    updateprofile(data: {
+        _id: $_id,
+        firstName: $firstName
+        lastName: $lastName
+        birthdate: $birthdate
+        mobileNumber: $mobileNumber
+        gender: $gender
+        displayPicture: $displayPicture
+        country: $country
+        city: $city
+        address1: $address1
+        postalCode: $postalCode
+        state: $state
+    }) {
+        profile {
+            _id 
+            firstName
+            lastName
+            fullName
+            birthdate
+            mobileNumber
+            gender
+            displayPicture
+            country
+            city
+            address1
+            postalCode
+            state
+        }
+        notifications {
+            message
+            links {
+                app
+                url
+            }
+            new
+            dateCreated
+            tumbnail
+        }
+        paymentMethods {
+            _id
+            paymentType
+        }
+        orders {
+            _id
+        }
+    }
+}

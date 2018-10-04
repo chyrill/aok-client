@@ -1,0 +1,31 @@
+mutation paywithpaymentmethod($orderId: ID!) {
+    paywithpaymentmethod(data: {
+        orderId: $orderId
+    }){
+        _id
+        order {
+            seller {
+                _id
+                profile {
+                    _id
+                    fullName
+                }
+            }
+            buyer {
+                _id
+                profile {
+                    _id
+                    fullName
+                    displayPicture
+                }
+            }
+        }
+        artwork {
+            _id
+            title
+            charity {
+                _id
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+query getuserbyprofileid($id: ID!) {
+    getuserbyprofileid(id: $id) {
+        _id
+        profile {
+            _id
+            displayPicture
+            profileBanner
+            fullName
+            description
+            alias
+            firstName
+            category
+        }
+        artworks {
+            _id
+            pictures
+            title
+            sellingPrice
+            year
+            artist {
+                _id
+                fullName
+            }
+        }
+    }
+}

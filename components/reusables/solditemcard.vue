@@ -9,7 +9,7 @@
             <div style="width:100%">
                 <span style="float: left;"><b>{{title}}, {{year}}</b></span> <span style="float: right"><div id="redBall"></div></span> <br>
                 <span style="color: grey">{{artist}}</span> <br>
-                <span style="color: grey"> {{price}} </span>
+                <span style="color: grey"><money-comp currency="$" :value="price" /></span>
             </div>
         </v-card-title>
     </v-card>
@@ -32,9 +32,13 @@
 
 <script>
 /* eslint-disable */
+import MoneyConversion from '@/components/helpers/moneyconversion'
 
 export default {
-    props: [ 'title', 'year', 'price', 'artist', 'image' ]
+    props: [ 'title', 'year', 'price', 'artist', 'image' ],
+    components: {
+        'money-comp' : MoneyConversion
+    }
 }
 </script>
 

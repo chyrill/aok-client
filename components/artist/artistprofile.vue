@@ -1,14 +1,14 @@
 <template>
     <v-card style="height:990px;">
         <div style="text-align: center;">
-            <v-card-media src="/images/500_p.jpg" height="275">
+            <v-card-media :src="profile.profile.profileBanner" height="275">
             </v-card-media>
             <div id="profile_pic">
-                <img src="/icon_avatar.png"/>
+                <img :src="profile.profile.displayPicture? profile.profile.displayPicture : '/avatar_icon.png'"/>
             </div>
             <div style="position: relative; top: -70px;">
-                <span><h2>Patrick</h2></span>
-                <span>Graphic Designer</span>
+                <span><h2>{{profile.profile.alias}}</h2></span>
+                <span>{{profile.profile.category}}</span>
             </div>
             <div style="position: relative; top: -70px;" class="pl-4 pr-4 pt-3">
                 <v-btn block color="black" dark style="height: 70px; text-transform: none">Follow</v-btn>
@@ -27,7 +27,7 @@
             </div>
             <div>
                 <p style="text-align: left justify; font-size: 16px;">     
-                    Nam laoreet risus ex, ac pretium tellus efficitur a. Aliquam cursus ipsum dignissim libero hendrerit ullamcorper. Phasellus luctus, urna sit amet finibus convallis, purus leo pretium ante, eu tempus augue ipsum ut leo. Fusce quis augue faucibus dolor dignissim facilisis eget eget nisi. Fusce a massa id erat tincidunt ornare eu vel risus. Fusce ultricies ut leo nec tempor. Curabitur imperdiet ipsum et orci varius ultrices. Nulla pulvinar ultricies justo, interdum euismod justo sodales nec.
+                   {{profile.profile.description}}
                 </p>
             </div>
         </div>
@@ -40,7 +40,14 @@
 /* eslint-disable */
 
 export default {
-    
+    props: {
+        profile : {
+            type: Object
+        }
+    },
+    mounted() {
+        console.log(this.profile)
+    }
 }
 </script>
 

@@ -1,0 +1,11 @@
+query getshipmentbyuser {
+    getshipmentbyuser {
+        _id
+        address1
+        address2
+        city
+        state
+        postalCode
+        country
+    }
+}

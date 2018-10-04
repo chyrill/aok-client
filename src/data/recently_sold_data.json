@@ -5,7 +5,7 @@
             "artist": "Annette Spinks",
             "year": "2017",
             "image": "/images/sold1.jpg",
-            "price": "$200",
+            "price": "200",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"
@@ -15,7 +15,7 @@
             "artist": "Nikki-Marie Rogers",
             "year": "2016",
             "image": "/images/sold2.jpg",
-            "price": "$340",
+            "price": "340",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"
@@ -25,7 +25,7 @@
             "artist": "Julien Pacaud",
             "year": "2010",
             "image": "/images/sold3.jpg",
-            "price": "$520",
+            "price": "520",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"
@@ -35,7 +35,7 @@
             "artist": "Sara Paxton",
             "year": "2015",
             "image": "/images/sold4.jpg",
-            "price": "$420",
+            "price": "420",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"
@@ -45,7 +45,7 @@
             "artist": "Ral",
             "year": "2017",
             "image": "/images/sold5.jpg",
-            "price": "$505",
+            "price": "505",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"
@@ -55,7 +55,7 @@
             "artist": "Cristiano Siqueira",
             "year": "2016",
             "image": "/images/sold6.jpg",
-            "price": "$180",
+            "price": "180",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"
@@ -65,7 +65,7 @@
             "artist": "Havoc",
             "year": "2017",
             "image": "/images/sold7.jpg",
-            "price": "$80",
+            "price": "80",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"
@@ -74,7 +74,7 @@
             "artist": "Nick La",
             "year": "2017",
             "image": "/images/sold8.jpg",
-            "price": "$700",
+            "price": "700",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"
@@ -84,7 +84,7 @@
             "artist": "Sara Paxton",
             "year": "2018",
             "image": "/images/sold9.jpg",
-            "price": "$450",
+            "price": "450",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"
@@ -94,7 +94,7 @@
             "artist": "Januz Miralles",
             "year": "2017",
             "image": "/images/sold10.jpg",
-            "price": "$500",
+            "price": "500",
             "size": "18in x 32in",
             "category": "Abstract",
             "charity": "World Wide Fund for Nature"

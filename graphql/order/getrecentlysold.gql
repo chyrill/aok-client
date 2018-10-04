@@ -1,0 +1,16 @@
+query getrecentlysold {
+    getrecentlysold {
+        _id
+        artwork {
+            _id
+            title
+            pictures
+            year
+            artist {
+                _id
+                fullName
+            }
+        }
+        price
+    }
+}

@@ -1,0 +1,37 @@
+mutation updatepaymentmethod( $c_id: ID!, $accountName: String, $cardNumber: String, $cvc: String, $expirationDate: String, $paymentMethodId: String,$b_id: ID!, $city: String, $country: String, $address: String, $state: String, $postalCode: String){
+    updatepaymentmethod(data: {
+        _id: $c_id
+        paymentMethodId: $paymentMethodId
+        accountName: $accountName
+        cardNumber: $cardNumber
+        expirationDate: $expirationDate
+        cvc : $cvc
+        billingInfo: {
+            paymentMethodId: $paymentMethodId
+            _id: $b_id
+            city: $city
+            address: $address
+            state: $state
+            country: $country
+            postalCode: $postalCode
+        }
+    }){
+        _id
+        paymentType
+        creditCard {
+            _id
+            accountName
+            cardNumber
+            cvc
+            expirationDate
+            billingInfo {
+                _id
+                address
+                city
+                country
+                postalCode
+                state
+            }
+        }
+    }  
+}

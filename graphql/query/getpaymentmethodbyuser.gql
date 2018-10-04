@@ -1,0 +1,13 @@
+query getpaymentmethodbyuser {
+    getpaymentmethodbyuser {
+        _id
+        paymentType
+        creditCard {
+            _id
+            cardNumber
+            accountName
+            cvc
+            expirationDate
+        }
+    }
+}

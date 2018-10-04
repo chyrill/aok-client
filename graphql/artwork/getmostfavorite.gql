@@ -1,0 +1,13 @@
+query getmostfavorite{
+    getmostfavorite {
+        _id
+        title
+        year
+        description
+        pictures
+        artist {
+            _id
+            fullName
+        }
+    }
+}

@@ -1,0 +1,47 @@
+query { 
+    userprofile{
+        profile {
+            _id
+            firstName
+            fullName
+            lastName
+            gender
+            displayPicture
+            mobileNumber
+            birthdate
+            country
+            city
+            state
+            address1
+            postalCode
+        }
+        notifications {
+            dateCreated
+            tumbnail
+            message
+            links {
+                app
+                url
+            }
+            new
+        }
+        paymentMethods {
+            _id
+            cardType
+            cardNumber
+            paymentType
+        }
+        shippingAddress {
+            _id
+            address1
+            address2
+            city
+            state
+            postalCode
+            country
+        }
+        orders {
+            _id
+        }
+    }
+} 

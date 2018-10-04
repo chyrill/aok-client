@@ -1,0 +1,9 @@
+mutation getshippingratebyid($orderId: ID!, $shippingId: ID!) {
+    getshippingratebyid(data: {
+        orderId: $orderId
+        shippingId: $shippingId
+    }) {
+        shippingId
+        rate
+    }
+}

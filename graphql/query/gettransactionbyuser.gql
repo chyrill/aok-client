@@ -1,0 +1,14 @@
+query gettransactionbyuser{
+    gettransactionbyuser {
+        _id
+        transactionId
+        artwork {
+            _id
+            title
+        }
+        action
+        dateCreated
+        amount
+        date
+    }
+}

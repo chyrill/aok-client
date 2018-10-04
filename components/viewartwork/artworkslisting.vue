@@ -4,8 +4,8 @@
             <divider :title= "title" />
         </div>
         <div id="wrapper">
-            <div v-for="item in artworks" :key="item.title">
-                <priced-artwork-comp :image="item.image" :title="item.title" :artist="item.artist" :year="item.year" :price="item.price" />
+            <div v-for="(item, index) in artworks" :key="index">
+                <priced-artwork-comp :artwork="item" />
             </div>
         </div>
     </div>
@@ -28,6 +28,19 @@ export default {
     components : {
         divider,
         'priced-artwork-comp': pricedArtwork
+    },
+    watch: {
+        artworks: function (val) {
+            if(val) {
+                this.show = true
+            }
+        }
+    },
+    data: () => ({
+        show: false
+    }),
+    mounted () {
+        console.log(this.artworks)
     }    
 }
 </script>

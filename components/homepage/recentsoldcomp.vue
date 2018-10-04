@@ -4,8 +4,8 @@
             <divider title="recently sold artworks" />
         </div>
         <div id="wrapper">
-            <div v-for="(item, id) in RecentlySoldItems" :key="id" id="grid-item">
-                <sold-item-comp :title="item.title" :year="item.year" :price="item.price" :image="item.image" :artist="item.artist" />
+            <div v-for="(item, id) in getrecentlysold" :key="id" id="grid-item">
+                <sold-item-comp :title="item.artwork.title" :year="item.artwork.year" :price="item.price" :image="item.artwork.pictures[0]" :artist="item.artwork.artist.fullName" />
             </div>
         </div>
         <div class="pt-4 pb-3" style="text-align:center">
@@ -38,23 +38,21 @@
 import divider from '../reusables/dividers'
 import data from '@/src/data/recently_sold_data'
 import soldItemCard from '../reusables/solditemcard'
+import SoldItemLoad from '@/components/reusables/loading/solditemload'
+import GET_RECENTLY_SOLD from '@/graphql/order/getrecentlysold'
 
 export default {
     components: {
         divider,
-        'sold-item-comp' : soldItemCard
+        'sold-item-comp' : soldItemCard,
+        'sold-item-load' : SoldItemLoad
     },
-    data () {
-        return {
-            RecentlySoldItems : []
-        }
-    },
-    mounted () {
-        this.getData()
-    },
-    methods: {
-        getData () {
-            this.RecentlySoldItems = data.RecentlySoldData
+    data: () => ({
+        show: false
+    }),
+    apollo: {
+        getrecentlysold: {
+            query: GET_RECENTLY_SOLD
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <v-carousel hide-delimiters>
-            <v-carousel-item v-for="(item,i) in carouselArtwork" :src="item.image" :key="i">
+        <v-carousel hide-delimiters v-if="show">
+            <v-carousel-item v-for="(item,i) in gettopartworks" :src="item.pictures[0]" :key="i">
                 <div id="wrapper">
                     <div id="space-item">
                     </div>
@@ -9,19 +9,24 @@
                          <div id="inside_wrapper">
                              <div id="title">
                                  <h1>{{item.title}}, {{item.year}}</h1>
-                                 {{item.artist}}
+                                 {{item.artist.fullName}}
                              </div>
                              <div id="description">
                                  {{item.description}}
                              </div>
                              <div id="button">
-                                 <a href="/artworks/1/artwork"><button id="view_btn">View Artwork</button></a>
+                                 <a :href="'/artworks/' + item._id"><button id="view_btn">View Artwork</button></a>
                              </div>
                          </div>
                     </div>
                 </div>
             </v-carousel-item>
         </v-carousel>
+        <div class="_carousel" v-else-if="!show">
+          <v-container fluid fill-height justify-center>
+            <v-progress-circular indeterminate size="150" color="black"></v-progress-circular>
+          </v-container>
+        </div>
     </div>
 </template>
 
@@ -114,6 +119,10 @@ a {
 * {
         font-family: 'Nunito Sans', sans-serif;
 }
+._carousel {
+  width: 100%;
+  height: 250px;
+}
 </style>
 
 
@@ -121,20 +130,23 @@ a {
 /* eslint-disable */
 import axios from "axios";
 import data from "@/src/data/artworkdata";
+import GET_TOPARTWORKS from '@/graphql/artwork/gettopartworks'
 
 export default {
-  data() {
-    return {
-      carouselArtwork: []
-    };
-  },
-  methods: {
-    getFeaturedArtworks() {
-      this.carouselArtwork = data.data;
+  data: () => ({
+    show: false
+  }),
+  apollo: {
+    gettopartworks: {
+      query: GET_TOPARTWORKS
     }
   },
-  mounted() {
-    this.getFeaturedArtworks();
+  watch: {
+    gettopartworks: function(val){
+      if(val.length >= 1) {
+        this.show = true
+      }
+    }
   }
-};
+}
 </script>

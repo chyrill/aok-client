@@ -1,0 +1,6 @@
+mutation follow($id: ID!, $type: String) {
+    follow(
+        id: $id
+        type: $type
+    )
+}

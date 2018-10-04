@@ -6,7 +6,7 @@
             "year" : "2015",
             "size" : "30 x 30",
             "meduim" : "oil and canvass",
-            "price": "$2000",
+            "price": "2000",
             "image" : "/images/artwork1.jpg"
         },
         {
@@ -15,7 +15,7 @@
             "year" : "2017",
             "size" : "19.5cm x 19.5cm",
             "meduim" : "pencil, ink and paint on acid free art paper",
-            "price": "$465",
+            "price": "465",
             "image": "/images/artwork2.jpg"
         },
         {
@@ -24,7 +24,7 @@
             "year" : "2017",
             "size" : "200 x 200",
             "meduim" : "oil and canvass",
-            "price": "$2100",
+            "price": "2100",
             "image": "/images/artwork3.jpg"
         }
     ]

@@ -1,0 +1,34 @@
+query {
+    endingartwork{
+        _id
+        pictures
+        title
+        sellingPrice
+        width
+        height
+        measurement
+        charity{
+            name
+            displayPicture
+        }
+        pledge
+        medium
+        artist {
+            _id
+            fullName
+        }
+        year
+        auctionEndDate
+        bids {
+            totalCount
+            items {
+                bidder {
+                    fullName
+                    displayPicture
+                }
+                amount
+                dateCreated
+            }
+        }
+    }
+}

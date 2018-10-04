@@ -1,0 +1,23 @@
+mutation proceedpayment2($paymentType: String, $token: String, $cardType: String, $cardNumber: String, $address1: String, $address2: String, $city: String, $state: String, $postalCode: String, $country: String, $shippingProviderId: String, $shippingRate: Float, $orderId: String){
+    proceedpayment2(data: {
+        paymentMethod: {
+            paymentType: $paymentType
+            token: $token
+            cardType: $cardType
+            cardNumber: $cardNumber
+        }
+        shipping: {
+            address1: $address1
+            address2: $address2
+            city: $city
+            state: $state
+            postalCode: $postalCode
+            country: $country
+        }
+        shippingProviderId: $shippingProviderId
+        shippingRate: $shippingRate
+        orderId: $orderId
+    }) {
+        _id
+    }
+}

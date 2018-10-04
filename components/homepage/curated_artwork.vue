@@ -4,15 +4,15 @@
             <divider title="curated artwork" />
         </div>
         <div id="wrapper">
-            <div v-for="item in CuratedArtworkList" :key="item.title" id="grid_item_list">
-                <v-card>
+            <div v-if="show" v-for="(item, index) in CuratedArtworkList" :key="index" id="grid_item_list">
+                <v-card :to="'/artworks/' + item._id">
                     <v-card-media>
-                        <img :src="item.image" height="200px"/>
+                        <img :src="item.pictures[0]" height="200px"/>
                     </v-card-media>
                     <v-card-title>
                         <div>
                             <span><b> {{item.title}}, {{item.year}} </b> </span> <br>
-                            <span style="color: grey">{{item.artist}} </span>
+                            <span style="color: grey">{{item.artist.fullName}} </span>
                         </div>
                     </v-card-title>
                 </v-card>
@@ -26,23 +26,30 @@
 /* eslint-disable */
 import data from '@/src/data/artworkdata.json'
 import divider from '../reusables/dividers';
+import GET_ARTWORKS_QUERY from '@/graphql/artwork/getmostfavorite'
 
 export default {
     data () {
         return {
-            CuratedArtworkList : []
-        }
-    },
-    mounted () {
-        this.getCuratedArtwork()
-    },
-    methods: {
-        getCuratedArtwork () {
-            this.CuratedArtworkList = data.data
+            CuratedArtworkList : [],
+            show: false
         }
     },
     components: {
         divider
+    },
+    apollo: {
+        getmostfavorite: {
+            query: GET_ARTWORKS_QUERY
+        }
+    },
+    watch: {
+        getmostfavorite: function (val) {
+            if(val) {
+                this.CuratedArtworkList = val
+                this.show = true
+            }
+        }
     }
 }
 </script>

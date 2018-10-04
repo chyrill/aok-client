@@ -1,0 +1,10 @@
+query getcharities {
+    getcharities{
+        _id
+        name
+        tagline
+        displayPicture
+        country
+        follow
+    }
+}

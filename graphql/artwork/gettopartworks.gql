@@ -1,0 +1,13 @@
+query gettopartworks {
+  gettopartworks {
+      _id
+      title
+      description
+      pictures
+      year
+      artist {
+          _id
+          fullName
+      }
+  }
+}

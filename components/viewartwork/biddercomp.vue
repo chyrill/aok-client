@@ -4,19 +4,19 @@
             <v-card-title>
                 <h1>Bidders</h1>
             </v-card-title>
-            <div class="pt-2 pl-2 pr-2">
-                <v-list v-for="item in bidders" :key="item.name" two-line subheader>
+            <div class="pt-2 pl-2 pr-2" id="bids">
+                <v-list v-for="(item, index) in bids.items" :key="index" two-line subheader>
                     <v-list-tile avatar>
                         <v-list-tile-avatar>
-                            <img :src="item.avatar" />
+                            <img :src="item.bidder.displayPicture ? item.bidder.displayPicture : '/icon_avatar.png'" />
                         </v-list-tile-avatar>
                         <v-list-tile-content>
-                            <v-list-tile-title>{{item.name}}</v-list-tile-title>
-                            <v-list-tile-sub-title>{{item.country}}</v-list-tile-sub-title>
+                            <v-list-tile-title>{{item.bidder.fullName}}</v-list-tile-title>
+                            <v-list-tile-sub-title>{{item.bidder.country}}</v-list-tile-sub-title>
                         </v-list-tile-content>
                         <v-list-tile-action>
-                            <span style="font-weight: 600">{{item.amount}}</span> 
-                            <v-list-tile-sub-title>{{item.timeElapsed}}</v-list-tile-sub-title>
+                            <span style="font-weight: 600"><money-comp currency="$" :value="item.amount" /></span> 
+                            <v-list-tile-sub-title><elapsed-time-comp :dateVal="item.dateCreated" /></v-list-tile-sub-title>
                         </v-list-tile-action>
                     </v-list-tile>
                     <v-divider></v-divider>
@@ -29,21 +29,21 @@
 
 <script>
 /* eslint-disable */
-import response from '@/src/data/bidders_data'
+import moneyConversionComp from '@/components/helpers/moneyconversion'
+import elapsedTimeComp from '@/components/helpers/elapsedtime'
 
 export default {
-    methods : {
-        getBidders() {
-            this.bidders = response.data
-        }
-    },
-    data () {
-        return {
-            bidders : []
+    props: {
+        bids: {
+            type: [Object]
         }
     },
     mounted () {
-        this.getBidders()
+        console.log(this.bids)
+    },
+    components: {
+        'money-comp' : moneyConversionComp,
+        'elapsed-time-comp' : elapsedTimeComp
     }
 }
 </script>
@@ -59,6 +59,10 @@ export default {
             min-height: 620px;
             height: 100%;
         }
+    }
+    #bids {
+        overflow-y: auto;
+        height: 80%;
     }
 </style>
 

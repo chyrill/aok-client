@@ -6,7 +6,7 @@
             </v-card-title>
                 <div id="wrapper">
                     <div v-for="(item, index) in artworks" :key="index">
-                        <price-artwork-comp :title="item.title" :image="item.image" :price="item.price" :year="item.year" :artist="item.artist" />
+                        <price-artwork-comp v-if="show" :artwork="item"/>
                     </div>
                 </div>
         </v-card>
@@ -23,10 +23,12 @@ export default {
     components: {
         'price-artwork-comp': pricedArtworkComp
     },
-    data () {
-        return {
-            artworks: response.RecentlySoldData.slice(0,9)
-        }
+    props: ['artworks'],
+    data: () => ({
+        show: false
+    }),
+    mounted () {
+        this.show = this.artworks.length <= 0 ? false : true
     }
 }
 </script>

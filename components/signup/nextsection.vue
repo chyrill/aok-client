@@ -21,7 +21,7 @@
                         </v-layout>
                     </v-container>
                     <div class="pt-5">
-                        <v-btn block color="black" dark>Next</v-btn>
+                        <v-btn block color="black" :dark="enabledBtn" @click="signup" :disabled="!enabledBtn">Next</v-btn>
                     </div>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -40,13 +40,24 @@
 /* eslint-disable */
 
 import divider from '../reusables/dividers'
+import SIGNUP_MUTATION from '@/graphql/signup.gql'
+import EventBus from '@/plugins/eventbus'
+import {CREATOR_ROUTE } from '@/config/routes'
 
 export default {
+    props: {
+        signupData: {
+            type: Object
+        }
+    },
     data () {
         return {
             mobileDevice : false,
+            roleId: '',
+            enabledBtn: false,
+            buyer: false,
             seller: false,
-            buyer: false
+            loading: false
         }
     },
     methods: {
@@ -64,13 +75,60 @@ export default {
         },
         clickBuyer () {
             this.buyer = !this.buyer
+            this.enabledBtn = true
+            this.roleId = 'buyer'
             if (this.seller) 
                 this.seller = false
         },
         clickSeller () {
             this.seller = !this.seller
+            this.enabledBtn = true
+            this.roleId = 'artist'
             if (this.buyer) 
                 this.buyer = false
+        },
+        async signup () {
+            this.loading = true
+            this.enabledBtn = false
+            this.signupData['roleId'] = this.roleId
+            try {
+                this.$apollo.mutate({
+                    mutation: SIGNUP_MUTATION,
+                    variables: this.signupData
+                }).then(response=> {    
+                    this.triggerSnackbar('Successfully created account', 'green','check')
+                    if(this.roleId === 'artist') {
+                        window.location.replace(CREATOR_ROUTE + '/profile?auth='+response.data.signup)
+                    }
+                    else {
+                        this.loading = false
+                        this.enabledBtn = true
+                        localStorage.setItem('token', response.data.signup)
+                        this.$store.dispatch('setToken', response.data.signup)
+                        this.$apolloHelpers.onLogin(response.data.signup)
+                        EventBus.$emit('closeSignUp')
+                        this.$router.push('/onboarding')
+                    }
+                }).catch(err => {
+                    this.loading = false
+                    this.enabledBtn = true
+                    if(err.graphQLErrors[0].state){
+                        var keys = (err.graphQLErrors[0].state)
+                        this.triggerSnackbar(err.graphQLErrors[0].state[keys[0]][0],'red', 'close')
+                    }
+                    this.triggerSnackbar(err.graphQLErrors[0].message,'red', 'close')
+                })
+            }
+            catch (e) {
+                this.triggerSnackbar(e.message, 'red','close')
+            }
+        },
+        triggerSnackbar(message, color,action) {
+            EventBus.$emit('error', {
+                message: message,
+                color: color,
+                action: action
+            });
         }
     },
     mounted () {
@@ -79,6 +137,7 @@ export default {
         
             this.getWindowWidth()
         })
+        console.log(this.signupData)
     },
     components: {
         divider

@@ -58,7 +58,7 @@
         </div>
         <div class="wrapper">
             <div v-for="(item, index) in charities" :key="index">
-                <card-follow-comp :artist="item" heightCard="360" />
+                <card-follow-comp :artist="item" heightCard="360" type="Charity"/>
             </div>
         </div>
     </div>
