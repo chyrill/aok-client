@@ -1,3 +1,6 @@
-mutation removepaymentmethodbyid($id: ID!) {
-    removepaymentmethodbyid(id: $id) 
+mutation removepaymentmethod($id: ID!) {
+    removepaymentmethod(id: $id) {
+        Successful
+        Message
+    }
 }

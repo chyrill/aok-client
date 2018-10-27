@@ -1,0 +1,16 @@
+mutation signup($email: String, $password: String, $role: String!, $firstName: String, $lastName: String) {
+    signup(data: {
+        email: $email
+        password: $password
+        firstName: $firstName
+        lastName: $lastName
+        role: $role
+    }) {
+        Model {
+            token
+            role
+        }
+        Successful
+        Message
+    }
+}

@@ -211,6 +211,16 @@
         </div>
         <v-dialog v-model="showBid" width="600px" :fullscreen="mobileDevice" transition="dialog-bottom-transition" persistent><bid-comp :artwork="artwork"/></v-dialog>
         <v-dialog v-model="buyNow" width="500px" :fullscreen="mobileDevice" transition="dialog-bottom-transition" persistent><buy-now-comp v-if="buyNow" :artwork="artwork"/></v-dialog>
+        <v-dialog persistent v-model="loading" width="300px">
+            <v-card>
+                <v-container fluid fill-height justify-center>
+                    <div style="text-align: center">
+                        <v-progress-circular indeterminate size="150" color="black"></v-progress-circular><br>
+                        <h4 style="color: grey;">Please wait for a moment ....</h4>
+                    </div>
+                </v-container>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 <style scoped>
@@ -234,6 +244,7 @@ import { GetLengthArrayWithCondition } from '@/helpers/helpers'
 import elapsedTimeComp from '@/components/helpers/elapsedtime'
 import buyNowComp from '@/components/dialogs/buynow'
 import AlertComp from './alert'
+import { API_ROUTE } from '@/config/routes'
 
 export default {
     data() {
@@ -283,7 +294,8 @@ export default {
             noNotif: 0,
             show: false,
             buyNow: false,
-            alert: []
+            alert: [],
+            loading: false
         }
     },
     methods: {
@@ -299,11 +311,28 @@ export default {
         close() {
             this.error.visible = false
         },
-        signout () {
-            this.$store.commit('getToken')
-            localStorage.clear()
-            this.$store.dispatch('clearState')
-            this.$router.push('/')
+        async signout () {
+            let registration = await navigator.serviceWorker.getRegistration('/push_service.js')
+            let subscription = await registration.pushManager.getSubscription()
+            await subscription.unsubscribe()
+            this.unsubscribe(subscription)
+        },
+        unsubscribe(subscription) {
+            console.log(subscription)
+            fetch(API_ROUTE + '/unsubscribe', {
+                method: 'POST',
+                body: JSON.stringify(subscription),
+                headers: {
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(res => {
+                subscription.unsubscribe()
+                this.$store.commit('authentication/remove')
+                this.$store.commit('profile/remove')
+                this.$router.push('/')
+            })
         }
     },
     components: {
@@ -322,11 +351,12 @@ export default {
         this.getWindowWidth()
         })
 
-        eventBus.$on('register', (value)=>{
-            this.signupData = value
+        eventBus.$on('nextRegister', ()=>{
             this.nextSection = !this.nextSection
         })
-
+        eventBus.$on('backToSignUp', () => {
+            this.nextSection = !this.nextSection
+        })
         eventBus.$on('error', (value)=> {
             this.error.message = value.message
             this.error.color = value.color
@@ -360,14 +390,16 @@ export default {
         eventBus.$on('notification', (data) => {
             this.alert.push(data)
         })
+        eventBus.$on('loading', () => {
+            this.loading = !this.loading
+        })
         this.$store.watch(
             (state) => {
                 if(state.notifications) {
-                    this.notifications = state.notifications
-                   
+                    this.notifications = state.notifications.list
                 }
                 if(state.profile) {
-                    this.profileData = state.profile.profile
+                    this.profileData = state.profile.data
                     this.show = true
                 }
             }
@@ -378,13 +410,13 @@ export default {
     },
     computed: {
         isAuthenticated () {
-            return this.$store.state.isAuthenticated
+            return this.$store.state.authentication.isAuthenticated
         },
         profile () {
-            return this.$store.state.profile
+            return this.$store.state.profile.data
         },
         token () {
-            return this.$store.state.token
+            return this.$store.state.authentication.token
         }
     },
     watch: {

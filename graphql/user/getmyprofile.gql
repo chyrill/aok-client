@@ -1,0 +1,50 @@
+query getmyprofile {
+    getmyprofile {
+        Model {
+            _id
+            profile {
+                _id 
+                firstName
+                lastName
+                gender
+                birthdate
+                mobileNumber
+                fullName
+                displayPicture
+                address1
+                city
+                state
+                postalCode
+                country
+            }
+            notifications {
+                thumbnail
+                message
+                link {
+                    app
+                    url
+                }
+                new
+                dateCreated
+            }
+            paymentMethods {
+                _id
+                accountName
+                paymentType
+                cardType
+                cardNumber
+            }
+            shippingAddress {
+                _id
+                address1
+                address2
+                city
+                state
+                postalCode
+                country
+            }
+        }
+        Successful
+        Message
+    }
+}

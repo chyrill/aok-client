@@ -22,6 +22,7 @@
                     </v-container>
                     <div class="pt-5">
                         <v-btn block color="black" :dark="enabledBtn" @click="signup" :disabled="!enabledBtn">Next</v-btn>
+                        <v-btn block outline @click="back" :disabled="loading">Back</v-btn>
                     </div>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -40,16 +41,11 @@
 /* eslint-disable */
 
 import divider from '../reusables/dividers'
-import SIGNUP_MUTATION from '@/graphql/signup.gql'
+import SIGNUP_MUTATION from '@/graphql/user/signup'
 import EventBus from '@/plugins/eventbus'
 import {CREATOR_ROUTE } from '@/config/routes'
 
 export default {
-    props: {
-        signupData: {
-            type: Object
-        }
-    },
     data () {
         return {
             mobileDevice : false,
@@ -73,50 +69,48 @@ export default {
         onRegister (value) {
             this.$emit('nextRegister', true)
         },
+        back() {
+            EventBus.$emit('backToSignUp')
+        },
         clickBuyer () {
             this.buyer = !this.buyer
             this.enabledBtn = true
-            this.roleId = 'buyer'
+            this.roleId = 'CLIENT'
             if (this.seller) 
                 this.seller = false
         },
         clickSeller () {
             this.seller = !this.seller
             this.enabledBtn = true
-            this.roleId = 'artist'
+            this.roleId = 'ARTIST'
             if (this.buyer) 
                 this.buyer = false
         },
         async signup () {
             this.loading = true
             this.enabledBtn = false
-            this.signupData['roleId'] = this.roleId
             try {
                 this.$apollo.mutate({
                     mutation: SIGNUP_MUTATION,
-                    variables: this.signupData
-                }).then(response=> {    
-                    this.triggerSnackbar('Successfully created account', 'green','check')
-                    if(this.roleId === 'artist') {
-                        window.location.replace(CREATOR_ROUTE + '/profile?auth='+response.data.signup)
+                    variables: {
+                        email : this.signupdata.email,
+                        password: this.signupdata.password,
+                        firstName: this.signupdata.firstName,
+                        lastName: this.signupdata.lastName,
+                        role: this.roleId
+                    }
+                }).then(response => {    
+                    const { Message, Successful, Model } = response.data.signup
+                    if(!Successful) {
+                        this.triggerSnackbar(Message, 'red', 'close')
                     }
                     else {
-                        this.loading = false
-                        this.enabledBtn = true
-                        localStorage.setItem('token', response.data.signup)
-                        this.$store.dispatch('setToken', response.data.signup)
-                        this.$apolloHelpers.onLogin(response.data.signup)
+                        this.triggerSnackbar('We have sent you an email. Please verfiy.', 'green', 'check')
                         EventBus.$emit('closeSignUp')
-                        this.$router.push('/onboarding')
                     }
-                }).catch(err => {
                     this.loading = false
-                    this.enabledBtn = true
-                    if(err.graphQLErrors[0].state){
-                        var keys = (err.graphQLErrors[0].state)
-                        this.triggerSnackbar(err.graphQLErrors[0].state[keys[0]][0],'red', 'close')
-                    }
-                    this.triggerSnackbar(err.graphQLErrors[0].message,'red', 'close')
+                }).catch(err => {
+                    console.log(err)
                 })
             }
             catch (e) {
@@ -137,10 +131,14 @@ export default {
         
             this.getWindowWidth()
         })
-        console.log(this.signupData)
     },
     components: {
         divider
+    },
+    computed: {
+        signupdata () {
+            return this.$store.state.signup.signup
+        }
     }
 }
 </script>

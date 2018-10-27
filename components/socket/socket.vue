@@ -8,6 +8,7 @@ import io from 'socket.io-client'
 import { API_ROUTE } from '@/config/routes'
 import eventBus from '@/plugins/eventbus'
 import { TRANSFROM_DATA_TO_NOTIFICATION_PLACE_ORDER } from './methods'
+import { setTimeout } from 'timers';
 
 const socket = io(API_ROUTE);
 
@@ -15,26 +16,24 @@ export default {
   mounted() {
     this.$store.watch(
         state => {
-            if (state.profile) {
-                 if(state.profile.profile) {
-                    this.profileId = state.profile.profile._id
+            if (state.authentication.id) {
+                 if(state.authentication.id) {
+                    this.id = state.authentication.id
                 }
             }
         }
     )
-    eventBus.$on('bidNotify', (data) => {
-        socket.emit('bidNotification', {
-            bidderId: data.bidderId,
-            artworkId : data.artworkId,
-            fullName: this.getFullName(),
-            amount: data.amount
-        })
+    eventBus.$on('bidnotification', (data) => {
+        socket.emit('bidNotification', { artworkId: data.artworkId, userId: data.bidderId })
+        setTimeout(() => {
+            window.location.reload(true)
+        }, 2000)
     })
     socket.on('notification', (data) => {
-        if(data.recipientId === this.profileId) {
+        if(data.recipientId === this.id) {
             var audio = new Audio('/ding.mp3')
             eventBus.$emit('notification', { show: true, title: 'AOK-CLIENT', message: data.message})
-            this.$store.dispatch('addNotification', data)
+            this.$store.commit('notification/add', data)
             audio.play()
         }
     })
@@ -56,7 +55,7 @@ export default {
      }
  },
  data: () => ({
-    profileId: null
+    id: null
  })
 }
 </script>

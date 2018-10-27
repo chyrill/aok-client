@@ -1,9 +1,0 @@
-mutation signup($email:String!, $password:String!, $lastName:String!, $firstName:String!, $roleId:RoleEnumType!) {
-        signup(data: {
-            email: $email
-            password: $password,
-            lastName: $lastName,
-            firstName: $firstName,
-            roleId: $roleId
-        }) 
-    }

@@ -2,13 +2,13 @@
     <div>
         <v-card height="600px">
             <v-card-text >
-                <div style="padding-bottom: 25px; height: 24px;" v-if="!auctionEnded && artwork.status === '1'">
+                <div style="padding-bottom: 25px; height: 24px;" v-if="artwork.status === 'ON-GOING'">
                     <span  style="float: left; font-size: 16px; color: grey">Auction will end in</span> <span style="float: right; font-size: 24px"><count-down-comp :dateEnd="artwork.auctionEndDate"/></span>
                 </div>
-                <div v-if="artwork.status === '3' || artwork.status === '4' || artwork.delivered === '5'">
+                <div v-if="artwork.status === 'SOLD' || artwork.status === 'PAID' || artwork.delivered === 'COMPLETE'">
                     <span>This artworks has been sold.</span>
                 </div>
-                 <div v-else-if="artwork.status == '6'">
+                 <div v-else-if="artwork.status === 'EXPIRED'">
                     <span>This Auction has ended.</span>
                 </div>
             </v-card-text>
@@ -22,21 +22,21 @@
                 </div>
                 <div class="pt-5 pb-3" style="font-size: 16px;">
                     <span id="left_item" style="color: grey">Initial Price</span> <span id="right_item" style="font-weight:600"><money-comp currency="$" :value="initialPrice"/></span> <br>
-                    <span id="left_item" style="color: grey">Meduim</span> <span id="right_item" style="color: grey">{{artwork.medium}}</span> <br>
-                    <span id="left_item" style="color: grey">Dimensions</span> <span id="right_item" style="color: grey">{{artwork.height}} x {{artwork.width}} {{artwork.measurement}}</span> <br>
+                    <span id="left_item" style="color: grey">Medium</span> <span id="right_item" style="color: grey">{{artwork.medium}}</span> <br>
+                    <span id="left_item" style="color: grey">Dimensions</span> <span id="right_item" style="color: grey">{{artwork.length}} x {{artwork.width}} x {{artwork.height}} {{artwork.distanceUnit}}</span> <br>
                 </div>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-text>
                 <div style="text-align: center" class="pt-2 pb-2">
-                    with the purchase of this artwork, <b><span><money-comp currency="$" :value="pledgeAmount" /></span></b> will be donated to <v-avatar size="15px"><img :src="artwork.charity.displayPicture"></v-avatar><b>{{artwork.charity.tagline}}</b>
+                    with the purchase of this artwork, <b><span><money-comp currency="$" :value="pledgeAmount" /></span></b> will be donated to <v-avatar size="15px"><img :src="artwork.charity.displayPicture"></v-avatar><b>{{artwork.charity.name}}</b>
                 </div>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-text>
                 <div id="wrapper">
                     <div>
-                        <v-text-field prefix="$" solo class="txt_fld" v-model="bid" flat type="number" :disabled="artwork.status==='3'|| artwork.status === '4' || artwork.status === '5' || artwork.status === '6'"></v-text-field>
+                        <v-text-field prefix="$" solo class="txt_fld" v-model="bid" flat type="number" :disabled="artwork.status==='3'|| artwork.status === '4' || artwork.status === '5' || artwork.status === '6' || !isAuthenticated"></v-text-field>
                     </div>
                     <div>
                         <v-btn block :disabled="bid === null || bid <= initialPrice || loading || artwork.status === '3' || artwork.status == 6" outline style="text-transform: none; height: 50px;margin-top: 0; font-weight: 600; border: 2px solid" @click="submitBid">Place bid</v-btn>
@@ -46,7 +46,7 @@
             <v-divider></v-divider>
             <v-card-text>
                 <div style="text-align: center">
-                    <v-btn block :dark="!loading && artwork.status != '3' && !disableBuyNow && artwork.status != '4' && artwork.status != '5'" color="black" :disabled="loading || artwork.status === '3' || disableBuyNow || artwork.status === '4' || artwork.status === '5'" style="height: 80px; text-transform: none;font-size: 16px; font-weight: 700;" @click="buyNow">Buy now -  <money-comp currency="$" :value="artwork.sellingPrice"/></v-btn>
+                    <v-btn block :dark="artwork.status != 'SOLD' && !disableBuyNow && artwork.status != 'PAID' && artwork.status != 'COMPLETE' && isAuthenticated" color="black" :disabled="artwork.status === 'SOLD' || disableBuyNow || artwork.status === 'PAID' || artwork.status === 'COMPLETE' || !isAuthenticated" style="height: 80px; text-transform: none;font-size: 16px; font-weight: 700;" @click="buyNow">Buy now -  <money-comp currency="$" :value="artwork.sellingPrice"/></v-btn>
                 </div>
             </v-card-text>
         </v-card>
@@ -60,7 +60,7 @@
 /* eslint-disable */
 import countdownComp from '@/components/helpers/countdown'
 import moneyConversionComp from '@/components/helpers/moneyconversion'
-import ADD_BID_MUTATION from '@/graphql/addbid'
+import ADD_BID_MUTATION from '@/graphql/bid/addbid'
 import eventBus from '@/plugins/eventbus'
 import FOLLOW_MUTATION from '@/graphql/follow/follow'
 
@@ -75,11 +75,19 @@ export default {
             isActive : false,
             bid: null,
             loading: false,
-            follow: false
+            follow: false,
+            isAuthenticated: false
         }
     },
     mounted () {
         this.follow = this.artwork.liked
+        this.$store.watch(
+            state => {
+                if(state.authentication) {
+                    this.isAuthenticated = state.authentication.isAuthenticated
+                }
+            }
+        )
     },
     components: {
         'count-down-comp' : countdownComp,
@@ -97,9 +105,6 @@ export default {
         },
         disableBuyNow () {
             return this.artwork.sellingPrice < this.initialPrice
-        },
-        isAuthenticated () {
-            return this.$store.state.isAuthenticated
         }
     },
     methods: {
@@ -111,14 +116,18 @@ export default {
                     mutation: ADD_BID_MUTATION,
                     variables: data
                 }).then(response => {
-                    this.triggerLoading()
-                    var data =response.data.addbid
-                    this.triggerNotify({bidderId: data.bidderId, amount: data.amount, artworkId: data.artworkId })
-                    this.triggerAlert('Successfully added bid', 'green', 'check')
-                    location.reload()
+                    const { Message, Successful, Model } = response.data.addbid
+                    if(!Successful) {
+                        this.triggerAlert(Message, 'red', 'close')
+                        this.triggerLoading()
+                    } else {
+                        this.triggerAlert(Message, 'green', 'check')
+                        eventBus.$emit('bidnotification', { artworkId: this.$route.params.id, bidderId: Model.bidderId })
+                        this.triggerLoading()
+                        window.location.reload()
+                    }
                 }).catch(errors => {
-                    this.triggerLoading()
-                    this.triggerAlert('You are the highest bidder', 'red', 'close')
+                    alert(errors)
                 })
             }
             catch(err) {
@@ -138,10 +147,7 @@ export default {
             eventBus.$emit('bidNotify', data)
         },
         triggerLoading () {
-            this.loading = !this.loading
-        },
-        triggerRefreshPage () {
-            eventBus.$emit('refreshArtworkPage')
+            eventBus.$emit('loading')
         },
         buyNow () {
             this.$emit('buynow')

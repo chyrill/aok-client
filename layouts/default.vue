@@ -2,14 +2,13 @@
   <v-app>
     <Navigation1/>
     <socket-comp v-if="isAuthenticated"/>
-   
   </v-app>
 </template>
 
 <script>
 /* eslint-disable */
 import Navigation1 from '@/components/navigation/navigation1'
-import GET_PROFILE_QUERY from '@/graphql/getprofile'
+import GET_PROFILE_QUERY from '@/graphql/user/getmyprofile'
 import { mapValuesLimit } from 'async';
 import bidComp from '@/components/dialogs/bid'
 import EventBus from '@/plugins/eventbus'
@@ -25,13 +24,13 @@ export default {
   mounted() {
     if(localStorage.getItem('token')) {
       this.$apolloHelpers.onLogin(localStorage.getItem('token'))
-      this.$store.dispatch('setToken', localStorage.getItem('token'))
+      this.$store.commit('authentication/set', localStorage.getItem('token'))
     }
 
     this.$store.watch(
       (state) => {
-        if(state.isAuthenticated) {
-          this.isAuthenticated = true
+        if(state.authentication) {
+          this.isAuthenticated = state.authentication.isAuthenticated
           if(state.pendingOrders.length >= 1 ) {
             console.log(this.$route)
             if(this.$route.name !== 'order-id') {
@@ -47,25 +46,29 @@ export default {
     )
   },
   apollo: {
-    userprofile: {
+    getmyprofile: {
       query: GET_PROFILE_QUERY
     }
   },
   watch: {
-    userprofile: function(val) {
+    getmyprofile: function(val) {
       if(val) {
-        this.$store.dispatch('setProfile', val)
+        this.$store.commit('profile/set', val.Model.profile)
+        this.$store.commit('authentication/setId', val.Model._id)
+        this.$store.commit('notifications/set', val.Model.notifications)
+        this.$store.commit('paymentmethods/set', val.Model.paymentMethods)
+        this.$store.commit('shippingaddress/set', val.Model.shippingAddress)
       }
     },
     token: function(val) {
       if(val){
-        this.$store.dispatch('setAuthenticated')
+        this.$store.commit('authentication/set', val)
       }
     }
   },
   computed: {
     token() {
-      return this.$store.state.token
+      return this.$store.state.authentication.token
     }
   },
   data: () => ({

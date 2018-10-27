@@ -41,7 +41,7 @@
             </v-layout>
         </v-container>
         <div class="pt-2 pb-2 pl-2" style="width: 100%">
-            <v-btn class="_btn" color="green" :disabled="loading || invalidForm" :dark="!loading && !invalidForm" right @click="submit">Submit</v-btn>
+            <v-btn class="_btn" color="green" :disabled="invalidForm" :dark="!invalidForm" right @click="submit">Submit</v-btn>
         </div>
     </div>
 </template>
@@ -52,7 +52,7 @@
 import { GET_COUNTRY_LIST } from '@/helpers/helpers'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
-import ADD_SHIPMENT_MUTATION from '@/graphql/mutation/shipment/add'
+import ADD_SHIPMENT_MUTATION from '@/graphql/shippingaddress/addshippingaddress'
 import eventbus from '@/plugins/eventbus'
 
 export default {
@@ -131,7 +131,7 @@ export default {
             }
         },
         triggerLoading () {
-            this.loading = !this.loading
+            eventbus.$emit('loading')
         },
         triggerAlert(message, color, action) {
             eventbus.$emit('error', {message : message, color: color, action: action})
@@ -142,13 +142,19 @@ export default {
                 mutation: ADD_SHIPMENT_MUTATION,
                 variables: this.loadStateToSubmitData()
             }).then( res => {
-                this.triggerAlert('Successfully added shipping address', 'green', 'check')
-                this.$emit('submitted', res.data.addshipment)
+               const { Successful, Message, Model } = res.data.addshippingaddress
+               if(!Successful) {
+                   this.triggerAlert(Message, 'red', 'close')
+                   this.triggerLoading()
+               } else {
+                   this.triggerAlert(Message, 'green', 'check')
+                   this.$store.commit('shippingaddress/add', Model)
+                   this.triggerLoading()
+                   this.$emit('submitted')
+               }
             }).catch( err => {
-                this.triggerAlert('Error on adding shipping address')
+                
             })
-
-            this.triggerLoading()
         }
     }    
 }
@@ -164,6 +170,7 @@ export default {
     ._btn {
         height: 70px;
         width: 100%;
+        font-weight: 700;
     }
 </style>
 

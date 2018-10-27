@@ -1,0 +1,6 @@
+mutation removeshippingaddress($id: ID!) {
+    removeshippingaddress(id:$id) {
+        Successful
+        Message
+    }
+}

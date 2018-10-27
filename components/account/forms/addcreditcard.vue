@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card flat>
-            <v-container fluid fill-height justify-center grid-list-md class="pa-3">
+            <v-container fluid fill-height justify-center grid-list-lg class="pa-3">
                 <v-layout row wrap>
                     <v-flex xs12>
                         <label for="card-element">
@@ -9,14 +9,17 @@
                         </label>
                     </v-flex>
                     <v-flex xs12>
+                        <span style="color: grey; font-weight: 700">Account Name</span> <br>
+                        <v-text-field solo flat style='border: 1px solid grey' v-model="accountName" :error-messages="accountNameErrors" @input="$v.accountName.$touch()" @blur="$v.accountName.$touch()"/>
+                    </v-flex>
+                    <v-flex xs12>
                         <div id="card-element"></div>
                     </v-flex>
                 </v-layout>
             </v-container>
             <v-card-text>
-                <v-btn id="submit" class="_btn green ligthen-2" :dark="!loading" block :disabled="loading">
-                    <span v-if="loading"><v-progress-circular indeterminate color="black" size="50" /></span>
-                    <span v-else>Save</span>    
+                <v-btn id="submit" class="_btn green ligthen-2"  :dark="!$v.$invalid" block :disabled="$v.$invalid">
+                    Save
                 </v-btn>
             </v-card-text>
         </v-card>
@@ -27,10 +30,17 @@
 /* eslint-disable */
 import eventbus from '@/plugins/eventbus'
 import ADD_PAYMENT_METHOD from '@/graphql/paymentmethod/addpaymentmethod'
+import { validationMixin } from 'vuelidate'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
+    mixins: [ validationMixin ],
+    validations: {
+        accountName: { required }
+    },
     data: () => ({
-        loading: false
+        loading: false,
+        accountName: null
     }),
     mounted() {
         const stripe = Stripe('pk_test_2VHCkC9nBNuGDzaaGHhvbjPp')
@@ -72,32 +82,46 @@ export default {
                 mutation: ADD_PAYMENT_METHOD,
                 variables: this.transformData(data)
             })
-                .then(res => {
-                    this.triggerAlert('Successfully added payment method', 'green', 'check')
-                    this.$store.dispatch('addPaymentMethod', res.data.addPaymentMethod)
+            .then(res => {
+                const { Successful, Message, Model } = res.data.addpaymentmethod
+                if(!Successful) {
+                    this.triggerAlert(Message, 'red', 'close')
+                    this.triggerLoading()
+                } else {
+                    this.triggerAlert(Message, 'green', 'check')
+                    this.$store.commit('paymentmethods/add', Model)
+                    this.triggerLoading()
                     this.$emit('submitted')
-                    this.triggerLoading()
-                })
-                .catch(err => {
-                    this.triggerAlert('Error on adding payment method', 'red', 'close')
-                    this.triggerLoading()
-                })
+                }
+            })
+            .catch(err => {
+                alert(err)
+            })
         },
         triggerAlert(message, color, action) {
             eventbus.$emit('error', {message: message, color: color, action: action})
         },
         triggerLoading () {
-            this.loading = !this.loading
+            eventbus.$emit('loading')
         },
         transformData(data) {
             return {
                 token: data.id,
                 cardType: data.card.brand,
                 paymentType: data.type,
-                cardNumber: data.card.last4
+                cardNumber: data.card.last4,
+                accountName: this.accountName
             }
         }
-    }    
+    },
+    computed: {
+        accountNameErrors () {
+            const errors = []
+            if(!this.$v.accountName.$dirty) return errors 
+            !this.$v.accountName.required && errors.push('Account Name is required.')
+            return errors
+        }
+    }
 }
 </script>
 

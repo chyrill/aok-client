@@ -33,13 +33,16 @@
                            <v-list-tile-action>
                                <img :src="item.cardType === 'Visa'? '/visa_logo.png' : '/mastercard.png'" width="70px" />
                            </v-list-tile-action>
-                           <v-list-tile-content>
-                               <v-list-tile-sub-title class="pl-3">
+                           <v-list-tile-content class="pl-3">
+                               <v-list-tile-title>
+                                   {{item.accountName}}
+                               </v-list-tile-title>
+                               <v-list-tile-sub-title>
                                    xxxx-xxxx-xxxx-{{item.cardNumber}}
                                </v-list-tile-sub-title>
                            </v-list-tile-content>
                             <v-list-tile-action>
-                                   <v-btn icon color="red" flat @click="deleteItem(item._id)"><v-icon>close</v-icon></v-btn>
+                                   <v-btn icon color="red" flat @click="deleteItem(item._id)"><v-icon>far fa-trash-alt</v-icon></v-btn>
                             </v-list-tile-action>
                        </v-list-tile>
                     </div>
@@ -88,7 +91,7 @@ export default {
     },
     computed: {
         PaymentMethods () {
-            return this.$store.state.paymentMethods
+            return this.$store.state.paymentmethods.list
         }
     },
     methods: {
@@ -97,19 +100,26 @@ export default {
             this.deleteId = id
         },
         async deleteData() {
+            this.triggerLoading()
             this.$apollo.mutate({
                 mutation: REMOVE_PAYMENT_METHOD,
                 variables: { id: this.deleteId }
             })
-                .then(res => {
-                    this.deleteForm = !this.deleteForm
-                    this.$store.dispatch('removePaymentMethod', this.deleteId)
-                    this.triggerAlert('Successfully deleted item', 'green','check')
-                })
-                .catch(err => {
-                    console.log(err)
-                    this.triggerAlert('Error on deleting','red','close')
-                })
+            .then(res => {
+               const { Successful, Message } = res.data.removepaymentmethod
+               if(!Successful) {
+                   this.triggerAlert(Message, 'red', 'close')
+                   this.triggerLoading()
+               } else {
+                   this.triggerAlert(Message, 'green', 'check')
+                   this.$store.commit('paymentmethods/remove', this.deleteId)
+                   this.triggerLoading()
+                   this.deleteForm = !this.deleteForm
+               }
+            })
+            .catch(err => {
+                alert(err)
+            })
         },
         triggerAlert(message, color, action) {
             eventbus.$emit('error', {
@@ -117,6 +127,9 @@ export default {
                 color: color,
                 action: action
             })
+        },
+        triggerLoading () {
+            eventbus.$emit('loading')
         }
     },
     watch: {

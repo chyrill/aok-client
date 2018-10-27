@@ -1,13 +1,19 @@
-mutation addPaymentMethod($cardNumber: String, $cardType: String, $paymentType: String, $token: String) {
-    addPaymentMethod(data: {
+mutation addpaymentmethod($cardNumber: String, $cardType: String, $paymentType: String, $token: String, $accountName: String) {
+    addpaymentmethod(data: {
+        accountName: $accountName
         cardNumber: $cardNumber
         cardType: $cardType
         paymentType: $paymentType
         token: $token
     }) {
-        _id
-        paymentType
-        cardType
-        cardNumber
+        Model {
+            _id
+            paymentType
+            cardType
+            cardNumber
+            accountName
+        }
+        Successful
+        Message
     }
 }

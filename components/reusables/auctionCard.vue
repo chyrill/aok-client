@@ -11,7 +11,7 @@
                     <span style="text-transform: uppercase; float:left"><b>{{artwork.title}}, {{artwork.year}}</b></span> <span style="float: right"><b><price-comp :value="artwork.sellingPrice" currency="$" /></b></span> <br>
                     <span style="color:grey;">{{artwork.artist.fullName}}</span> <br>
                     <span style="color:grey;">{{artwork.medium}}</span> <br>
-                    <span style="color:grey;">{{artwork.height}}x{{artwork.width}} {{artwork.measurement}}</span>
+                    <span style="color:grey;">{{artwork.length}} x {{artwork.width}} x {{artwork.height}} {{artwork.distanceUnit}}</span>
                 </div>
             </v-card-title>
             <v-divider></v-divider>
@@ -22,7 +22,7 @@
             <v-divider></v-divider>
             <v-card-actions>
                 <v-layout row wrap>
-                    <v-btn block color="black" outline style="text-transform: none" @click="placeBid">Place a bid</v-btn><v-btn block color="black"  style="text-transform: none" dark @click="buyNow">Buy Now</v-btn>
+                    <v-btn block color="black" outline style="text-transform: none" @click="placeBid" :disabled="!isAuthenticated">Place a bid</v-btn><v-btn block color="black"  style="text-transform: none" :dark="isAuthenticated" @click="buyNow" :disabled="!isAuthenticated">Buy Now</v-btn>
                 </v-layout>
             </v-card-actions>
         </v-card>
@@ -51,13 +51,14 @@ export default {
     components: {
         'price-comp': priceComp
     },
-    computed: {
-        amount () {
-            return Math.floor(this.artwork.sellingPrice * (this.artwork.pledge/100))
-        }
-    },
     mounted() {
-        
+        this.$store.watch(
+            state => {
+                if(state.authentication.isAuthenticated) {
+                   
+                }
+            }
+        )
     },
     methods: {
         placeBid () {
@@ -65,6 +66,14 @@ export default {
         },
         buyNow () {
             EventBus.$emit('buyNow', this.artwork)
+        }
+    },
+    computed: {
+        isAuthenticated () {
+            return this.$store.state.authentication.isAuthenticated
+        },
+        amount () {
+            return Math.floor(this.artwork.sellingPrice * (this.artwork.pledge/100))
         }
     }
 }

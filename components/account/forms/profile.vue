@@ -78,9 +78,9 @@
             </div>
         </div>
         <v-divider></v-divider>
-        <div style="text-align:center" class="pt-2 pb-2">
-            <v-btn :dark="!invalidForm && !loading" color="black" :disabled="invalidForm || loading" class="_btn" @click="submit"><span v-if="!loading">Save Changes</span><span v-else><v-progress-circular indeterminate color="black" size="25px" /></span></v-btn>
-        </div>
+        <v-card-text>
+            <v-btn :dark="!invalidForm" color="black" :disabled="invalidForm" class="_btn" @click="submit" block>Save Changes</v-btn>
+        </v-card-text>
     </div>
 </template>
 
@@ -90,7 +90,7 @@ import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import { API_ROUTE } from '@/config/routes'
 import axios from 'axios'
-import UPDATE_PROFILE_MUTATION from '@/graphql/updateprofile'
+import UPDATE_PROFILE_MUTATION from '@/graphql/user/updateprofile'
 import eventbus from '@/plugins/eventbus'
 import { GET_COUNTRY_LIST } from '@/helpers/helpers'
 
@@ -121,7 +121,7 @@ export default {
         address: null,
         postalCode: null,
         birthdateMenu: false,
-        genderList: ['male', 'female'],
+        genderList: ['Male', 'Female'],
         profile: null,
         loading: false,
         countryList: GET_COUNTRY_LIST()
@@ -152,8 +152,8 @@ export default {
     mounted () {
         this.$store.watch(
             (state) => {
-                if(state.profile) {
-                    this.profile = state.profile.profile
+                if(state.profile.data) {
+                    this.profile = state.profile.data
                 }
             }
         )
@@ -193,7 +193,7 @@ export default {
             }
         },
         triggerLoading () {
-            this.loading = !this.loading
+            eventbus.$emit('loading')
         },
         async submit () {
             var data = this.loadStateToSubmitData()
@@ -202,12 +202,18 @@ export default {
                 mutation: UPDATE_PROFILE_MUTATION,
                 variables: data
             }).then(response => {
-                this.triggerLoading()
-                this.triggerAlert('Successfully updated profile','green','check')
-                this.$store.dispatch('setProfile', response.data.updateprofile)
+                const { Model, Successful, Message } = response.data.updateprofile
+                if(!Successful) {
+                    this.triggerAlert(Message, 'red', 'close')
+                    this.triggerLoading()
+                } else {
+                    this.triggerAlert(Message, 'green', 'check')
+                    this.$store.commit('profile/update', Model)
+                    this.triggerLoading()
+                }
             }).catch(err => {
-                this.triggerLoading() 
-                this.triggerAlert('Error on updating profile', 'red', 'close')
+                alert(err)
+                this.triggerLoading()
             })
         },
         loadStateToSubmitData() {
@@ -266,7 +272,7 @@ export default {
         grid-column-end: 3;
     }
     ._btn {
-        width: 360px;
+        font-weight: 700;
         height: 70px;
     }
     @media screen and (max-width: 736px) {

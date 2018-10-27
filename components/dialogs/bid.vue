@@ -46,7 +46,7 @@
                                             {{artwork.artist.fullName}} 
                                             {{artwork.category}} <br>
                                             {{artwork.medium}} <br>
-                                            {{artwork.height}} x {{artwork.width}} {{artwork.measurement}}
+                                            {{artwork.length}} x {{artwork.width}} x {{artwork.height}} {{artwork.distanceUnit}}
                                         </div>
                                     </v-flex>
                                     <v-flex xs12>
@@ -95,7 +95,7 @@
 import countdownComp from '@/components/helpers/countdown'
 import numberConversion from '@/components/helpers/moneyconversion'
 import eventBus from '@/plugins/eventbus'
-import ADD_BID_MUTATION from '@/graphql/addbid'
+import ADD_BID_MUTATION from '@/graphql/bid/addbid'
 
 export default {
     props: {
@@ -110,7 +110,7 @@ export default {
     mounted() {
         this.$store.watch(
             (state) => {
-                this.isAuthenticated = state.isAuthenticated
+                this.isAuthenticated = state.authentication.isAuthenticated
             }
         )
     },
@@ -122,22 +122,25 @@ export default {
         async submit() {
             this.triggerLoading()
             var data = this.loadStateToSubmitData()
-            try  {
-                this.$apollo.mutate({
-                    mutation: ADD_BID_MUTATION,
-                    variables: data
-                }).then(response=> {
-                    this.triggerAlert('Successfully place bid', 'green', 'check')
-                    eventBus.$emit('bidNotify', { artworkId: data.artworkId, amount: data.amount, bidderId: response.data.addbid.bidderId })
+            this.$apollo.mutate({
+                mutation: ADD_BID_MUTATION,
+                variables: data
+            }).then(response=> {
+                const { Successful, Message, Model } = response.data.addbid
+                if(!Successful) {
+                    this.triggerAlert(Message, 'red', 'close')
+                    this.triggerLoading()
+                } else {
+                    this.triggerAlert(Message, 'green', 'check')
+                    eventBus.$emit('bidnotification', { artworkId : Model.artworkId, bidderId: Model.bidderId })
+                    this.triggerLoading()
                     this.closeDialog()
-                }).catch(error => {
-                    this.triggerAlert('You are currently the highest bidder','red','close')
-                })
-            }
-            catch(err) {
-                console.log(err)
-            }
-           this.triggerLoading()
+                }
+            }).catch(error => {
+                alert(error)
+                this.triggerLoading()
+            })
+           
         },
         loadStateToSubmitData() {
             return {
@@ -154,7 +157,7 @@ export default {
             eventBus.$emit('error', data)
         },
         triggerLoading() {
-            this.loading = !this.loading
+            eventBus.$emit('loading')
         }
     },
     data:() => ({

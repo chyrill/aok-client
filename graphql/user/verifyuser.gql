@@ -1,0 +1,10 @@
+mutation verifyuser($id: ID!) {
+    verifyuser(id: $id) {
+        Model {
+            token
+            role
+        }
+        Message
+        Successful
+    }
+}

@@ -1,0 +1,15 @@
+mutation addbid($artworkId: String, $amount: Float) {
+    addbid(data: {
+        artworkId: $artworkId,
+        amount: $amount
+    }) {
+        Model {
+            _id
+            bidderId
+            amount
+            artworkId
+        }
+        Successful
+        Message
+    }
+}

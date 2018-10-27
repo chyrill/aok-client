@@ -1,9 +1,9 @@
 <template>
     <v-card :style="{height: mobileDevice}">
         <v-toolbar color="black" flat>
-            <v-toolbar-title class="layout justify-center">
-                <img src="/artgallery2.png" height="100px" width="100px" style="padding-top:10px;"/>
-            </v-toolbar-title>
+            <v-container fluid fill-height justify-center>
+                <img src="/client-title.png" width="150px" @click="closeform"/>
+            </v-container>
         </v-toolbar>    
         <v-card-text>
             <div class="pt-3 pb-4">
@@ -31,6 +31,7 @@
 /* eslint-disable */
 import divider from '../reusables/dividers'
 import loginForm from './form/loginform'
+import eventbus from '@/plugins/eventbus'
 
 export default {
     data () {
@@ -54,6 +55,9 @@ export default {
             
             else 
                 this.mobileDevice = 'auto'
+        },
+        closeform () {
+            eventbus.$emit('closeLogin')
         } 
     },
     components: {

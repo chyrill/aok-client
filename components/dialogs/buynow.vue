@@ -102,8 +102,8 @@ export default {
     mounted() {
         this.$store.watch(
             (state) => {
-                if(state.isAuthenticated) {
-                    this.isAuthenticated = state.isAuthenticated
+                if(state.authentication) {
+                    this.isAuthenticated = state.authentication.isAuthenticated
                 }
             }
         )

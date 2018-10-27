@@ -1,0 +1,13 @@
+mutation login($email: String, $password: String) {
+    login(data: {
+        email: $email
+        password: $password
+    }) {
+        Successful
+        Model {
+            token
+            role
+        }
+        Message
+    }
+}

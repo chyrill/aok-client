@@ -3,8 +3,8 @@
         <div class="pt-3 pb-5">
             <divider title="Auctions ending today" />
         </div>
-        <div id="wrapper">
-            <div v-for="item in endingartwork" :key="item.title" id="grid-item">
+        <div id="wrapper" v-if="show">
+            <div v-for="(item, index) in getartworks.SearchItems" :key="index" id="grid-item">
                 <auction-card :artwork="item"/>
             </div>
         </div>
@@ -18,33 +18,42 @@
 import divider from '../reusables/dividers'
 import auctionCard from '../reusables/auctionCard'
 import data from '@/src/data/sample-auction-data'
-import ENDING_ARTWORK_QUERY from '@/graphql/endingartwork'
+import ENDING_ARTWORK_QUERY from '@/graphql/artwork/getartworks'
+
+const filter = {
+    auctionEndDate : { $gt : new Date() },
+    status: 'ON-GOING'
+}
+const sort = {
+    auctionEndDate: 1
+}
 
 export default {
     components: {
         divider,
         'auction-card' : auctionCard
     },
-    data () {
-        return {
-            AuctionList : []
-        }
-    },
-    mounted () {
-        this.$store.watch(
-            (state) => {
-                this.AuctionList = state.endingartwork
-            }
-        )
-    },
     apollo: {
-        endingartwork: {
-            query: ENDING_ARTWORK_QUERY
+        getartworks: {
+            query: ENDING_ARTWORK_QUERY,
+            variables () {
+                return {
+                    filter: JSON.stringify(filter),
+                    sort: JSON.stringify(sort),
+                    limit: 4,
+                    skip: 0
+                }
+            }
         }
     },
+    data: () => ({
+        show: false
+    }),
     watch: {
-        endingartwork: function (val) {
-            this.$store.dispatch('addEndingArtwork', val)
+        getartworks: function (val) {
+            if(val) {
+                this.show = true
+            }
         }
     }
 }

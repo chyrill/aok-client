@@ -81,3 +81,9 @@ const SUBMIT_DATA = (artworkId, buyNow) => {
     }
 }
 </script>
+
+<style scoped>
+    ._btn {
+        height: 70px;
+    }
+</style>

@@ -80,7 +80,7 @@ module.exports = {
     includeNodeModules: true,
     clientConfigs: {
       default: {
-        httpEndpoint: "https://aok-backend.now.sh/graphql"
+        httpEndpoint: "http://aok-backend.al:4000/graphql"
       }
     },
     errorHandler(error) {

@@ -7,23 +7,23 @@
             <div id="main_comp">
                 <div>
                     <v-container justify-center>
-                        <v-avatar size="120"><img :src=" displayPicture ? displayPicture : '/icon_avatar.png'" /><v-btn small absolute bottom right fab :dark="!loading" :class="loading ? 'white': 'black'" icon @click="openUpload" :disabled="loading"><v-icon>edit</v-icon></v-btn></v-avatar>
+                        <v-avatar size="120"><img :src=" displayPicture ? displayPicture : '/icon_avatar.png'" /><v-btn small absolute bottom right fab dark  class="black" icon @click="openUpload"><v-icon>edit</v-icon></v-btn></v-avatar>
                     </v-container>
                     <input type="file" ref="image" id="image" @change="submitPhoto" style="display: none;"/>
                 </div>
                 <div id="formMain">
                     <div>
                         <span class="_label">First Name </span>  <br>
-                        <v-text-field style="border: 1px solid grey" solo flat v-model="firstName" :error-messages="firstNameErrors" @input="$v.firstName.$touch()" @blur="$v.firstName.$touch()" :disabled="loading"></v-text-field>
+                        <v-text-field style="border: 1px solid grey" solo flat v-model="firstName" :error-messages="firstNameErrors" @input="$v.firstName.$touch()" @blur="$v.firstName.$touch()"></v-text-field>
                     </div>
                     <div>
                         <span class="_label">Last Name </span> <br>
-                        <v-text-field style="border: 1px solid grey" solo flat v-model="lastName" :error-messages="lastNameErrors" @input="$v.lastName.$touch()" @blur="$v.lastName.$touch()" :disabled="loading"></v-text-field>
+                        <v-text-field style="border: 1px solid grey" solo flat v-model="lastName" :error-messages="lastNameErrors" @input="$v.lastName.$touch()" @blur="$v.lastName.$touch()"></v-text-field>
                     </div>
                     <div>
                         <span class="_label">Date of Birth</span> <br>
                         <v-menu ref="birthdateMenu" :close-on-content-click="false" v-model="birthdateMenu" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" :return-value.sync="birthdate">
-                            <v-text-field slot="activator" solo flat style="border: 1px solid grey" readonly v-model="birthdate" append-icon="event" label="dd/mm/yyyy" :error-messages="birthdateErrors" @change="$v.birthdate.$touch()" :disabled="loading"/>
+                            <v-text-field slot="activator" solo flat style="border: 1px solid grey" readonly v-model="birthdate" append-icon="event" label="dd/mm/yyyy" :error-messages="birthdateErrors" @change="$v.birthdate.$touch()"/>
                             <v-date-picker no-title scrollable color="black" v-model="birthdate">
                                 <v-spacer></v-spacer>
                                 <v-btn flat color="red" @click="birthdateMenu = false">Cancel</v-btn>
@@ -33,17 +33,17 @@
                     </div>
                     <div>
                         <span class="_label">Gender</span><br>
-                        <v-select solo flat style="border: 1px solid grey" label="Select Gender" :items="genderList" v-model="gender" :error-messages="genderErrors" @change="$v.gender.$touch()" :disabled="loading"/>
+                        <v-select solo flat style="border: 1px solid grey" label="Select Gender" :items="genderList" v-model="gender" :error-messages="genderErrors" @change="$v.gender.$touch()" />
                     </div>
                     <div>
                         <span class="_label">Mobile</span><br>
-                        <v-text-field solo flat style="border: 1px solid grey" label="Enter mobile number" v-model="mobileNumber" :error-messages="mobileNumberErrors" @input="$v.mobileNumber.$touch()" @blur="$v.mobileNumber.$touch()" :disabled="loading"/>
+                        <v-text-field solo flat style="border: 1px solid grey" label="Enter mobile number" v-model="mobileNumber" :error-messages="mobileNumberErrors" @input="$v.mobileNumber.$touch()" @blur="$v.mobileNumber.$touch()" />
                     </div>
                 </div>
             </div>
             <v-divider></v-divider>
             <div style="text-align: center" class="pt-3 pb-3">
-                <v-btn :dark="!invalidForm && !loading" color="black" class="_btn" :disabled="invalidForm || loading" @click="submit">Start Browsing</v-btn>
+                <v-btn :dark="!invalidForm" color="black" class="_btn" :disabled="invalidForm" @click="submit">Start Browsing</v-btn>
             </div>
         </v-card>
     </div>
@@ -55,7 +55,7 @@ import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import {API_ROUTE} from '@/config/routes'
 import axios from 'axios'
-import UPDATE_PROFILE_MUTATION from '@/graphql/updateprofile'
+import UPDATE_PROFILE_MUTATION from '@/graphql/user/updateprofile'
 import EventBus from '@/plugins/eventbus'
 
 export default {
@@ -84,9 +84,8 @@ export default {
         birthdate: null,
         gender: null,
         mobileNumber: null,
-        loading: false,
         birthdateMenu: false,
-        genderList: ['male', 'female'],
+        genderList: ['Male', 'Female'],
         _id: null,
         profile: null,
         date: ''
@@ -147,28 +146,30 @@ export default {
             }
         },
         triggerLoading () {
-            this.loading = !this.loading
+            EventBus.$emit('loading')
         },
         async submit () {
             this.triggerLoading() 
-            var error = false
-            var data = this.loadStateToSubmitData()
             this.$apollo.mutate({
                 mutation: UPDATE_PROFILE_MUTATION,
-                variables: data
-            }).then(response => {
-                this.triggerAlert('Successfully updated profile', 'green', 'check')
-                this.triggerLoading()
-                this.$store.dispatch('setProfile', response.data.updateprofile)
-            }).catch(err => {
-                var msg = 'Error on Updating Profile'
-                this.triggerAlert(msg, 'red', 'close')
-                this.triggerLoading()
-                error = true
+                variables: this.loadStateToSubmitData()
             })
-            if(!error) {
-                this.$router.push('/')
-            }
+            .then(res => {
+                const { Message, Successful, Model } = res.data.updateprofile
+                if(!Successful) {
+                    this.triggerAlert(Message, 'red', 'close')
+                    this.triggerLoading()
+                } else {
+                    this.triggerAlert(Message, 'green', 'check')
+                    this.$store.commit('profile/update', Model)
+                    this.triggerLoading()
+                    this.$router.push('/')
+                }
+            })
+            .catch(err => {
+                this.triggerLoading()
+                alert(err)
+            })
         },
         loadStateToSubmitData() {
             return {
@@ -189,7 +190,6 @@ export default {
             this._id = profile._id
             this.firstName = profile.firstName
             this.lastName = profile.lastName
-            //this.birthdate = new Date(profile.birthdate).getFullYear() + '-' + new Date(profile.birthdate).getMonth() + '-' + new Date(profile.birthdate).getDate()
             this.gender = profile.gender
             this.mobileNumber = profile.mobileNumber
             this.displayPicture = profile.displayPicture
@@ -201,8 +201,8 @@ export default {
         }
         this.$store.watch(
             (state) =>  {
-                if(state.profile){
-                    this.profile = state.profile.profile
+                if(state.profile.data){
+                    this.profile = state.profile.data
                 }
             }
         )

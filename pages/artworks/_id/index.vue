@@ -43,7 +43,7 @@ import charitycomp from '@/components/viewartwork/charitycomp'
 import bidderscomp from '@/components/viewartwork/biddercomp'
 import artworklistcomp from '@/components/viewartwork/artworkslisting'
 import response from '@/src/data/recently_sold_data'
-import GET_ARTWORK_QUERY from '@/graphql/getartwork'
+import GET_ARTWORK_QUERY from '@/graphql/artwork/getartwork'
 import eventBus from '@/plugins/eventbus'
 import ConfirmationDialog from '@/components/viewartwork/dialog/confirmationdialog'
 
@@ -60,15 +60,14 @@ export default {
     },
     data () {
         return {
-            artworks: response.RecentlySoldData.slice(0,4),
-            artworks1: response.RecentlySoldData.slice(4,8),
             show: false,
             showConfirmation: false,
-            msg: null
+            msg: null,
+            artwork: null
         }
     },
     apollo: {
-        artwork: {
+        getartwork: {
             query: GET_ARTWORK_QUERY,
             variables () {
                 return {
@@ -78,19 +77,13 @@ export default {
         }
     },
     watch: {
-        artwork : function(val) {
+        getartwork : function(val) {
             if(val) {
-                this.msg = "More of " + val.artist.fullName + "'s works"
+                this.artwork = val.Model
+                this.msg = "More of " + val.Model.artist.fullName + "'s works"
                 this.show = true
             }
         }
-    },
-    mounted() {
-        eventBus.$on('refreshArtworkPage', () => {
-            this.$apollo.queries.artwork.refetch()
-        })
-    },
-    methods: {
     }
 }
 </script>

@@ -1,5 +1,5 @@
 /* eslint-disable */
 
-export const API_ROUTE = 'https://aok-backend.now.sh'
+export const API_ROUTE = 'http://aok-backend.al:4000'
 
-export const CREATOR_ROUTE = 'https://aok-creator.now.sh'
+export const CREATOR_ROUTE = 'http://localhost:3200'

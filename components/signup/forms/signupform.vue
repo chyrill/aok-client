@@ -8,7 +8,7 @@
         <v-text-field label="Last Name" solo v-model="lastName" :error-messages="lastNameErrors" class="textBox" @input="$v.lastName.$touch()" @blur="$v.lastName.$touch()" flat></v-text-field>
       </div>
       <div id="grid_item">
-        <v-text-field label="Email Address" v-model="email" solo flat class="textBox" :error-messages="emailErrors" @input="$v.email.$touch()" @blur="$v.email.$touch()"></v-text-field>
+        <v-text-field label="Email Address" v-model="email" solo flat class="textBox" :error-messages="emailErrors" @input="$v.email.$touch()" @blur="$v.email.$touch()" ></v-text-field>
       </div>
       <div id="grid_item">
         <v-text-field label="Password" solo v-model="password" flat class="textBox" :error-messages="passwordErrors" @input="$v.password.$touch()" @blur="$v.password.$touch()" type="password"></v-text-field>
@@ -18,9 +18,8 @@
       </div>
     </div>
     <div class="pt-2">
-      <v-btn color="black" block :dark="!formValid && !loading" id="regBtn" @click.stop="submit" :disabled="formValid || loading">
-        <v-progress-circular v-if="loading" indeterminate left></v-progress-circular>
-        <div v-if="!loading">Register</div>
+      <v-btn block class="_btn black" :dark="formValid" :disabled="!formValid" @click="submit">
+        Register
       </v-btn>
     </div>
   </div>
@@ -34,11 +33,19 @@
   } from 'vuelidate'
   import {
     required,
-    email
+    email,
+    minLength
   } from 'vuelidate/lib/validators'
   import eventBus from '@/plugins/eventbus'
   import checkuser from '@/graphql/checkuser.gql'
   
+  function passwordValidator(value) {
+    const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,25}$/
+    console.log(value)
+    console.log(pattern.test(value))  
+    return pattern.test(value)
+  }
+
   export default {
     mixins: [validationMixin],
     validations: {
@@ -53,15 +60,16 @@
         email
       },
       password: {
-        required
+        required,
+        minLength: minLength(6),
+        passwordValidator
       }
     },
     data: () => ({
       firstName: '',
       lastName: '',
       email: '',
-      password: '',
-      loading: false
+      password: ''
     }),
     computed: {
       lastNameErrors() {
@@ -87,43 +95,37 @@
         const errors = []
         if (!this.$v.password.$dirty) return errors
         !this.$v.password.required && errors.push('password is required')
+        !this.$v.password.minLength && errors.push('Password minimum length is 6.')
+        !this.$v.password.passwordValidator && errors.push('Must have 1 numeric, 1 Uppercase and 1 lowercase.')
         return errors
       },
       formValid() {
-        return this.$v.$invalid
+        return !this.$v.$invalid
+      },
+      saveSignUp () {
+        return this.$store.state.signup.signup
       }
     },
     methods: {
-      async submit(event) {
-        this.loading = true
-        const submitData = {
-          lastName: this.lastName,
-          firstName: this.firstName,
+      submit() {
+        this.$store.commit('signup/set', {
           email: this.email,
-          password: this.password
-        }
-        try {
-          this.$apollo.mutate({
-            mutation: checkuser,
-            variables: submitData
-          }).then(response => {
-            this.loading = false
-            eventBus.$emit('register', submitData)
-          }).catch(error => {
-             var keys = Object.keys(error.graphQLErrors[0].state)
-             eventBus.$emit('error', {
-              message: error.graphQLErrors[0].state[keys[0]][0],
-              color: 'red',
-              action: 'close'
-            })
-            this.loading = false
-          })
-        } catch (e) {
-          console.log(e)
-        }
+          password: this.password,
+          firstName: this.firstName,
+          lastName: this.lastName
+        })
+        this.$emit('register')
+      }
+    },
+    mounted() {
+      if(this.saveSignUp) {
+        this.email = this.saveSignUp.email
+        this.password = this.saveSignUp.password
+        this.firstName = this.saveSignUp.firstName
+        this.lastName = this.saveSignUp.lastName
       }
     }
-  }
+ }
 </script>
 
 
@@ -143,9 +145,8 @@
     text-align: center;
   }
   
-  #regBtn {
-    height: 50px;
-    text-transform: none;
+  ._btn {
+    height: 75px;
     font-weight: 700;
   }
 </style>

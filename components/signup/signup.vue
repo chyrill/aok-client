@@ -2,9 +2,9 @@
     <div>
         <v-card :style="{height: mobileDevice}">
             <v-toolbar color="black" flat>
-                <v-toolbar-title class="layout justify-center">
-                    <img src="/artgallery2.png" height="100px" width="100px" style="padding-top:10px;"/>
-                </v-toolbar-title>
+                <v-container fill-height fluid justify-center>
+                    <img src="/client-title.png" width="150px" @click="closeForm"/>
+                </v-container>
             </v-toolbar>
                 <v-card-text>
                     <div class="pt-2 pb-4">
@@ -31,6 +31,7 @@
 /* eslint-disable */
 import divider from '../reusables/dividers'
 import Signform from './forms/signupform'
+import eventbus from '@/plugins/eventbus'
 
 export default {
     data () {
@@ -52,8 +53,11 @@ export default {
                 this.mobileDevice = 'auto'
             }
         },
-        onRegister (value) {
-            this.$emit('nextRegister', true)
+        onRegister () {
+            eventbus.$emit('nextRegister')
+        },
+        closeForm() {
+            eventbus.$emit('closeSignUp')
         }
     },
     mounted () {
